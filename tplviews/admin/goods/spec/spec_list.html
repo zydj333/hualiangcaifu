@@ -1,0 +1,95 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>规格管理</h3>
+      <ul class="tab-base">
+        <li><a class="current" href="<!--{$COM.ADMIN_URL}-->goods/spec/spec_list/?loghash=<!--{$COM.LOGHASH}-->"><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/spec/spec_add/?loghash=<!--{$COM.LOGHASH}-->"><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <table id="prompt" class="table tb-type2">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12" class="nobg"> <div class="title">
+            <h5>操作提示</h5>
+            <span class="arrow"></span> </div>
+        </th>
+      </tr>
+      <tr class="odd">
+        <td><ul>
+            <li>规格将会对应到商品发布的规格，请详细添加。如：颜色;军绿色、天蓝色、巧克力色、桔色、浅灰色、浅绿色、浅黄色等等。</li>
+            <li>当管理员添加类型时需选择规格，不同的类型可以选择相同的规格。</li>
+			<li>图片类型编辑时不能单独修改一张图片</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form method='post' name="serachfrom" id="listfrom">
+    <input type="hidden" name="act" value="spec" />
+    <input type="hidden" name="op" value="spec_del" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="thead">
+          <th></th>
+          <th>排序</th>
+          <th>规格名称</th>
+          <th>规格值</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--{if $infolist}-->
+	    <!--{foreach from=$infolist item=v}-->
+        <tr class="hover edit">
+          <td class="w24"><input type="checkbox" name="del_id[]" value="<!--{$v.sp_id}-->" class="checkitem" /></td>
+          <td class="w48 sort"> <input type="hidden" name="hdnid[]" value="<!--{$v.sp_id}-->" /><input type="text" value="<!--{$v.listorder}-->" name="listorder[]" id="listorder[]" class="txt-short"></td>
+          <td class="w270 name"><!--{$v.sp_name}--></td>
+          <td class="name"><!--{$v.sp_value}--></td>
+          <td class="w96 align-center"><a href="<!--{$COM.ADMIN_URL}-->goods/spec/spec_edit/?loghash=<!--{$COM.LOGHASH}-->&id=<!--{$v.sp_id}-->">编辑</a>
+		  <!--{if $v.sp_id != '1'}-->|<a href="javascript:del('<!--{$COM.ADMIN_URL}-->goods/spec/spec_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]',<!--{$v.sp_id}-->);">删除</a><!--{/if}-->  </td>
+        </tr>
+		<!--{/foreach}-->
+                      </tbody>
+            <tfoot>
+        <tr>
+          <td><input type="checkbox" class="checkall" id="checkallBottom" /></td>
+          <td id="dataFuncs" colspan="16"><label for="checkallBottom">全选</label>
+            <a href="JavaScript:void(0);" class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->goods/spec/spec_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]');"><span>删除</span></a>
+            <a href="JavaScript:void(0);" class="btn" onclick="doOrder('<!--{$COM.ADMIN_URL}-->goods/spec/spec_order/?loghash=<!--{$COM.LOGHASH}-->');"><span>排序</span></a>
+			<!--{$infopage}-->
+        <tr>
+        <!--{else}-->
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+		<!--{/if}-->
+      </tfoot>
+          </table>
+  </form>
+</div>
+<script type="text/javascript" src="http://shopnc.ni108.com/resource/js/jquery.edit.js" charset="utf-8"></script>
+<script type="text/javascript">
+function submit_form(type){
+	var id='';
+	$('input[type=checkbox]:checked').each(function(){
+		if(!isNaN($(this).val())){
+			id += $(this).val();
+		}
+	});
+	if(id == ''){
+		alert('请选择要操作的数据项。');
+		return false;
+	}
+	if(type=='del'){
+		if(!confirm('您确定要删除吗??')){
+			return false;
+		}
+	}
+	$('#form_spec').submit();
+}
+</script></body>
+</html>

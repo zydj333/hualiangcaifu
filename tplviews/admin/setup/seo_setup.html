@@ -1,0 +1,52 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>SEO设置</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>SEO设置</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="post" name="form1">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label>启用伪静态:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform onoff"><label for="rewrite_enabled"  class="cb-enable <!--{if $seo_setup.rewrite_enabled == 1}-->selected<!--{/if}-->" title="是"><span>是</span></label>
+            <label for="rewrite_disabled" class="cb-disable <!--{if $seo_setup.rewrite_enabled == 0}-->selected<!--{/if}-->" title="否"><span>否</span></label>
+            <input id="rewrite_enabled" name="rewrite_enabled"  value="1" type="radio">
+            <input id="rewrite_disabled" name="rewrite_enabled" checked="checked" value="0" type="radio"></td>
+          <td class="vatop tips">启用伪静态可以提高搜索引擎抓取<br/>
+            启用前，请先确保已开启apache服务器的rewrite.module功能模块，并将商城目录下的"htaccess.txt"文件重命名为".htaccess"，然后选择“是”，保存即可。</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required">网站关键字:</td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input id="site_keywords" name="site_keywords" value="<!--{$seo_setup.site_keywords}-->" class="txt" type="text" /></td>
+          <td class="vatop tips"><span class="vatop rowform">网站关键字，出现在前台页面头部的 Meta 标签中，用于记录该页面的关键字，多个关键字间请用半角逗号 "," 隔开</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="site_description">网站描述:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea name="site_description" rows="6" class="tarea" id="site_description"><!--{$seo_setup.site_description}--></textarea></td>
+          <td class="vatop tips"><span class="vatop rowform">网站描述，出现在前台页面头部的 Meta 标签中，用于记录该页面的概要与描述</span></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="2" ><a href="JavaScript:void(0);" class="btn" onclick="document.form1.submit()"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<!--{include "footer.html"}-->

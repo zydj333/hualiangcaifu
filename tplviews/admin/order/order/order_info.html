@@ -1,0 +1,217 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <table class="table tb-type2 order">
+    <tbody>
+      <tr class="space">
+        <th colspan="15">订单状态</th>
+      </tr>
+      <tr>
+        <td colspan="2"><ul>
+            <li>
+			
+            <strong>订单号:</strong>&nbsp;&nbsp;&nbsp;<!--{$oinfo['order_sn']}--></li>
+            <li><strong>订单状态:</strong><!--{$order_state_name}--></li>
+            <li><strong>订单总额:</strong><span class="red_common" id="order_amount1">￥<!--{$oinfo['goods_amount']}--></span>(优惠了:￥<!--{$oinfo['discount']}-->)</li>
+            <li><strong>备注说明：</strong><span class="red_common"><!--{$oinfo['order_message']}--></span></li>
+          </ul></td>
+      </tr>
+      <tr class="space">
+        <th colspan="2">订单详情</th>
+      </tr>
+      <tr>
+        <th>订单信息</th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li><strong>买家名称:</strong><!--{$oinfo['buyer_name']}--></li>
+            <!--<li><strong>支付方式:</strong>{$oinfo['payment_name']}</li>
+            <li><strong>支付留言:</strong>{$oinfo['pay_message']}</li>-->
+            <li><strong>下单时间:</strong><!--{date('Y-m-d H:i:s',$oinfo['add_time'])}--></li>
+            <li><strong>支付时间:</strong><!--{if intval($oinfo['payment_time']) > 0 }--><!--{date('Y-m-d H:i:s',$oinfo['payment_time'])}--><!--{/if}--></li>
+            <li><strong>发货时间:</strong><!--{if intval($oinfo['shipping_time']) > 0 }--><!--{date('Y-m-d H:i:s',$oinfo['shipping_time'])}--><!--{/if}--></li>
+            <li><strong>开票时间:</strong><!--{if intval($oinfo['evaluation_time']) > 0 }--><!--{date('Y-m-d H:i:s',$oinfo['evaluation_time'])}--><!--{/if}--></li>
+            <li><strong>完成时间:</strong><!--{if intval($oinfo['finnshed_time']) > 0 }--><!--{date('Y-m-d H:i:s',$oinfo['finnshed_time'])}--><!--{/if}--></li>
+       </ul></td>
+      </tr>
+      <tr>
+        <th>收货人及发货信息</th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li><strong>收货人姓名:</strong><!--{if isset($ainfo['true_name'])}--><!--{$ainfo['true_name']}--><!--{/if}--></li>
+            <li><strong>所在地区:</strong><!--{if isset($ainfo['area_info'])}--><!--{$ainfo['area_info']}--><!--{/if}--></li>
+            <li><strong>邮政编码:</strong><!--{if isset($ainfo['zip_code'])}--><!--{$ainfo['zip_code']}--><!--{/if}--></li>
+            <li><strong>电话号码:</strong><!--{if isset($ainfo['tel_phone'])}--><!--{$ainfo['tel_phone']}--><!--{/if}--></li>
+            <li><strong>手机号码:</strong><!--{if isset($ainfo['mob_phone'])}--><!--{$ainfo['mob_phone']}--><!--{/if}--></li>
+            <li><strong>详细地址:</strong><!--{if isset($ainfo['address'])}--><!--{$ainfo['address']}--><!--{/if}--></li>
+            <li><strong>配送方式:</strong><!--{if isset($ainfo['shipping_name'])}--><!--{$ainfo['shipping_name']}--><!--{/if}--></li>
+            <li><strong>发货单号:</strong><!--{if isset($ainfo['shipping_code'])}--><!--{$oinfo['shipping_code']}--><!--{/if}--></li>
+        </ul></td>
+      </tr>
+      <tr>
+        <th>发票信息</th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li><strong>发票类型:</strong><!--{if isset($invoice['kaipiaotype']) && $invoice['kaipiaotype']==2}-->增值税发票<!--{else}-->普通发票<!--{/if}--></li>
+            <li><strong>单位名称:</strong><!--{if isset($invoice['compname'])}--><!--{$invoice['compname']}--><!--{/if}--></li>
+            <!--{if isset($invoice['kaipiaotype']) && $invoice['kaipiaotype']==2}-->
+            <li><strong>纳税人识别号:</strong><!--{if isset($invoice['compcode'])}--><!--{$invoice['compcode']}--><!--{/if}--></li>
+            <li><strong>注册地址:</strong><!--{if isset($invoice['address'])}--><!--{$invoice['address']}--><!--{/if}--></li>
+            <li><strong>注册电话:</strong><!--{if isset($invoice['tel'])}--><!--{$invoice['tel']}--><!--{/if}--></li>
+            <li><strong>开户银行:</strong><!--{if isset($invoice['bank'])}--><!--{$invoice['bank']}--><!--{/if}--></li>
+            <li><strong>银行账户:</strong><!--{if isset($invoice['bankcode'])}--><!--{$invoice['bankcode']}--><!--{/if}--></li>
+        		<!--{/if}-->
+        </ul></td>
+      </tr>
+      <tr>
+        <th>商品信息</th>
+      </tr>
+      <tr>
+        <td><table class="table tb-type2 goods ">
+            <tbody>
+              <tr>
+                <th></th>
+                <th>商品信息</th>
+                <th class="align-center">商品规格</th>
+                <th class="align-center">单价</th>
+                <th class="align-center">数量</th>
+                <th class="align-center">小计</th>
+                <th class="align-center">操作</th>
+              </tr>
+<!--{if $goodslist}-->
+<!--{foreach from=$goodslist item=v}-->
+<tr>
+<td class="w60 picture"><div class="size-56x56"><span class="thumb size-56x56"><i></i><img alt="" src="<!--{$COM.BASE_URL}--><!--{remain_image_path($v['goods_image'],'w')}-->" onload="javascript:DrawImage(this,56,56);"/></span></div></td>
+<td class="w40pre"><!--{$v['goods_name']}--><br><br><font color="#aaa;"><!--{$v['comment']}--></font></td>
+<td class="w132 align-left">吨位：<!--{$v['spec_tons']}--><br>米数：<!--{$v['spec_mishu']}--></td>
+<td class="w132 align-left">原价：<span class="red_common">￥<!--{$v['pre_price']}--></span><br>实价：<span class="red_common"><!--{if $oinfo['order_state']==30}-->￥<!--{$v['goods_price']}--><!--{else}--><input type="text" value="<!--{$v['goods_price']}-->" name="orderprice_<!--{$v['rec_id']}-->" id="orderprice_<!--{$v['rec_id']}-->" onblur="javascript:changeprice(<!--{$v['rec_id']}-->);" style="width:60px;" class="txt-short"><!--{/if}--></span></td>
+<td class="w96 align-center"><!--{if $oinfo['order_state']==30}--><!--{$v['goods_num']}--><!--{else}--><input type="text" value="<!--{$v['goods_num']}-->" name="ordernum_<!--{$v['rec_id']}-->" id="ordernum_<!--{$v['rec_id']}-->" onblur="javascript:changenum(<!--{$v['rec_id']}-->);" class="txt-short"><!--{/if}--></td>
+<td class="w96 align-center"><span id="subtotal_<!--{$v['rec_id']}-->"><!--{$v['sub_total']}--></span></td>
+<td class="w96 align-center"><a href="javascript:addreturn(<!--{$v['rec_id']}-->)">退货</a> | <a href="javascript:addfix(<!--{$v['rec_id']}-->)">返修</a></td>
+</tr>
+<!--{/foreach}-->
+<tr>
+	<td colspan="5"></td>
+	<td colspan="2" class="w96 align-center">订单总额：<span class="red_common" id="order_amount2">￥<!--{$oinfo['goods_amount']}--></span></td>
+	
+</tr>
+<!--{/if}-->
+		</tbody>
+          </table></td>
+      </tr>
+      <tr>
+<!--	  
+      	<th>促销活动</th>
+      </tr>
+      <tr>
+          <td>
+-->		  
+  <!-- S 促销信息 -->
+  <!-- E 促销信息 -->
+ <!--         </td>
+      </tr>	  
+	  -->
+	 
+	  
+	  
+<!--物流信息添加开始 将订单状态修改为已发货的时候 需要填写下面的信息-->	  
+
+    </tbody>
+    <tfoot>
+      <tr class="tfoot">
+	  <td colspan="5">
+	  	<a href="JavaScript:void(0);" class="btn" onclick="history.go(-1)"><span>返回</span></a>
+	  	
+	  	<a href="<!--{$COM.ADMIN_URL}-->order/order/orderprint/?loghash=<!--{$COM.LOGHASH}-->&oid=<!--{$oinfo['order_id']}-->" class="btn" target="_blank"><span>打印</span></a>
+	   
+		   <a href="JavaScript:void(0);" class="<!--{if $oinfo['order_state']==10}-->btn<!--{else}-->btn2<!--{/if}-->" <!--{if $oinfo['order_state']==10}-->onclick="nextstate('<!--{$oinfo['order_sn']}-->')"<!--{/if}-->>
+		      <span>已审核</span>
+		   </a>
+		
+		   <a href="JavaScript:void(0);" class="<!--{if $oinfo['order_state']==20}-->btn<!--{else}-->btn2<!--{/if}-->"  <!--{if $oinfo['order_state']==20}-->onclick="nextstate('<!--{$oinfo['order_sn']}-->')"<!--{/if}-->>
+		     <span>已发货</span>
+		   </a>
+	
+		   <a href="JavaScript:void(0);" class="<!--{if $oinfo['order_state']==30}-->btn<!--{else}-->btn2<!--{/if}-->" <!--{if $oinfo['order_state']==30}-->onclick="nextstate('<!--{$oinfo['order_sn']}-->')"<!--{/if}-->>
+		      <span>已开票</span>
+		   </a>
+		   <!--
+		   <a href="JavaScript:void(0);" class="btn" onclick="$('#logistics_form').submit()">
+		     <span>修改物流信息</span>
+		   </a>-->
+		   
+		   <a href="JavaScript:void(0);" class="<!--{if $oinfo['order_state']==40}-->btn<!--{else}-->btn2<!--{/if}-->" <!--{if $oinfo['order_state']==40}-->onclick="nextstate('<!--{$oinfo['order_sn']}-->')"<!--{/if}-->>
+		      <span>已完成</span>
+		   </a>
+		   <!--<a href="JavaScript:void(0);" class="btn" onclick="$('#logistics_form').submit()">
+		     <span>修改物流信息</span>
+		   </a>-->
+		 </td> 
+
+		
+	
+	  
+	  
+	  
+	  
+	  </tr>
+    </tfoot>
+  </table>
+</div>
+<script type="text/javascript">
+
+function nextstate(orderSn){
+  if(confirm('您确定修改订单的当前状态?')){
+           
+           location.href="<!--{$COM.ADMIN_URL}-->order/order/state_next/?loghash=<!--{$COM.LOGHASH}-->&order_sn="+orderSn;
+ }
+}
+
+function changeprice(recid){
+	if(confirm('您确定要修改订单的价格吗？')){
+		var rec_id = recid;
+		var goods_price = $("#orderprice_"+recid).val();
+
+		$.ajax({
+		  type:'get',
+			url: '/admin.php/order/order/ajax_change_price?rec_id='+rec_id+'&goods_price='+goods_price,
+			dataType: 'json',
+			success:function(data){
+				$("#order_amount1").html(data["order_total"]);
+				$("#order_amount2").html(data["order_total"]);
+				$("#subtotal_"+rec_id).html(data["sub_total"]);
+			}
+		});
+	}
+}
+
+function changenum(recid){
+	if(confirm('您确定要修改订单的数量吗？')){
+		var rec_id = recid;
+		var goods_num = $("#ordernum_"+recid).val();
+
+		$.ajax({
+		  type:'get',
+			url: '/admin.php/order/order/ajax_change_num?rec_id='+rec_id+'&goods_num='+goods_num,
+			dataType: 'json',
+			success:function(data){
+				$("#order_amount1").html(data["order_total"]);
+				$("#order_amount2").html(data["order_total"]);
+				$("#subtotal_"+rec_id).html(data["sub_total"]);
+			}
+		});
+	}
+}
+
+function addreturn(recid) {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'退货',id:'adddialog',iframe:'<!--{$COM.ADMIN_URL}-->order/order/apply_return/?loghash=<!--{$COM.LOGHASH}-->&rec_id='+recid,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+
+function addfix(recid) {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'返修',id:'adddialog',iframe:'<!--{$COM.ADMIN_URL}-->order/order/apply_fix/?loghash=<!--{$COM.LOGHASH}-->&rec_id='+recid,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+</script> 
+<!--{include "footer.html"}-->

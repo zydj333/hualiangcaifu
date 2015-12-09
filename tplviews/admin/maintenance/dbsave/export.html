@@ -1,0 +1,119 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>数据库工具</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>数据库导出</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->maintenance/dbsave/import?loghash=<!--{$COM.LOGHASH}-->" ><span>数据库导入</span></a></li>
+      </ul>
+    </div>
+  </div>
+<form method="post" name="listfrom" id="listfrom" >
+
+  <div class="fixed-empty"></div>
+   <table class="table tb-type2">
+    <tbody>
+        <tr class="noborder">
+		  <td class="required" style="width:150px;"><label class="validation" for="sizelimit">每个分卷文件大小：</label></td>
+          <td class="vatop rowform"><input type="text" value="2048" name="sizelimit" id="sizelimit" class="txt-short">K</td>
+          <td class="vatop tips"></td>
+        </tr>
+		<tr class="noborder">
+		  <td class="required" style="width:150px;"><label class="validation" for="sqlcompat">建表语句格式：</label></td>
+          <td class="vatop rowform">
+		  <input type="radio" name="sqlcompat" value="" checked> 默认 &nbsp; 
+		  <input type="radio" name="sqlcompat" value="MYSQL5" > MySQL 5.x &nbsp
+		  </td>
+          <td class="vatop tips"></td>
+        </tr>
+		<tr class="noborder">
+		  <td class="required" style="width:150px;"><label class="validation" for="sqlcharset">强制字符集：</label></td>
+          <td class="vatop rowform"><input type="radio" name="sqlcharset" value="" checked> 默认&nbsp; <input type="radio" name="sqlcharset" value='utf8'> UTF-8</td>
+          <td class="vatop tips"></td>
+        </tr>
+		<tr class="noborder">
+		  <td class="required" style="width:150px;">
+		  </td>
+          <td class="vatop rowform"><a href="JavaScript:void(0);"  class="btn"  id="submitBtn"><span>提交</span></a></td>
+          <td class="vatop tips"></td>
+        </tr>
+	 </tbody>
+	</table>
+ 	<input type="hidden" name="dosubmit" value="1" />
+	<input type="hidden" name="tabletype" value="wmmall" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="space"><th colspan="15">数据表列表</th> </tr>
+        <tr class="thead">
+          <th><input type="checkbox" class="checkall" id="checkallBottom"></th>
+          <th>表名</th>
+          <th>类型</th>
+          <th>编码</th>
+          <th>记录数</th>
+		  <th>使用空间</th>
+		  <th>碎片</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+	  <tbody>
+        <!--{if $infolist}-->
+        <!--{foreach from=$infolist item=v}-->
+        <tr class="hover">
+          <td><input type="checkbox" name='tables[]' value="<!--{$v.Name}-->" class="checkitem"></td>
+          <td><!--{$v.Name}--></td>
+          <td><!--{$v.Engine}--></td>
+          <td><!--{$v.Collation}--></td>
+          <td><!--{$v.Rows}--></td>
+		  <td><!--{$v.Data_length}--></td>
+		  <td><!--{$v.Data_free}--></td>
+          <td class="align-center">
+			<a href="<!--{$COM.ADMIN_URL}-->maintenance/dbsave/public_repair/?loghash=<!--{$COM.LOGHASH}-->&operation=optimize&pdo_name=<!--{$pdoname}-->&tables=<!--{$v.Name}-->">优化</a> |
+			<a href="<!--{$COM.ADMIN_URL}-->maintenance/dbsave/public_repair/?loghash=<!--{$COM.LOGHASH}-->&&operation=repair&pdo_name=<!--{$pdoname}-->&tables=<!--{$v.Name}-->">修复</a> |
+			<a href="javascript:void(0);" onclick="showcreat('<!--{$pdoname}-->','<!--{$v.Name}-->')">结构</a>
+		  </td>
+        </tr>
+        <!--{/foreach}-->
+		<!--{/if}-->
+      </tbody>
+    </table>
+  
+</div>
+</form>
+<script>
+function showcreat(pdo_name, tblname) {
+	window.top.art.dialog({title:tblname, id:'show', iframe:'<!--{$COM.ADMIN_URL}-->maintenance/dbsave/public_repair/?loghash=<!--{$COM.LOGHASH}-->&operation=showcreat&pdo_name='+pdo_name+'&tables=' +tblname,width:'650px',height:'350px'});
+}
+$(document).ready(function(){
+	//按钮先执行验证再提交表单
+	$("#submitBtn").click(function(){
+	    if($("#listfrom").valid()){
+	     $("#listfrom").submit();
+		}
+	});
+
+	$('#listfrom').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+            'sizelimit' : {
+                required : true,
+            }
+        },
+        messages : {
+            'sizelimit'  : {
+                required : '分卷大小不能为空',
+            }
+        }
+    });
+});
+
+
+</script>
+<!--{include "footer.html"}-->

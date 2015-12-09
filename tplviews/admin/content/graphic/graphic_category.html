@@ -1,0 +1,88 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>服务经理分类</h3>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="menuform" name="menuform" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="dosubmit" value="ok" />
+	<input type="hidden" name="op" value="<!--{$op}-->" />
+	<input type="hidden" name="lc_id" id="lc_id" value="<!--{if isset($link_category.lc_id)}--><!--{$link_category.lc_id}--><!--{/if}-->" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="lc_name"> 分类名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{if isset($link_category.lc_name)}--><!--{$link_category.lc_name}--><!--{/if}-->" name="lc_name" id="lc_name" class="txt"></td>
+          <td class="vatop tips">分类名称</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">排序:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{if isset($link_category.lc_name)}--><!--{$link_category.listorder}--><!--{else}-->255<!--{/if}-->" name="listorder" id="listorder" class="txt"></td>
+          <td class="vatop tips">数字越小越靠前</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15" style='display:none;'><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+		<input style='display:none;' type="submit" name="dosubmit" id="dosubmit" value=" 提交 ">
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#menuform").valid()){
+     $("#menuform").submit();
+	}
+	});
+});
+//
+$(document).ready(function(){
+	$('#menuform').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+            lc_name : {
+                required : true,
+				remote	: {
+                    url :'<!--{$COM.ADMIN_URL}-->marketing/link/ajax_public_check_link_category/?loghash=<!--{$COM.LOGHASH}-->&mt'+Math.random(),
+                    type:'get',
+                    data:{
+                    	lc_name : function(){
+                            return $('#lc_name').val();
+                        },
+						lc_id : function(){
+                            return $('#lc_id').val();
+                        },
+                    }
+               }
+            },
+            listorder : {
+                number   : true
+            }
+        },
+        messages : {
+            lc_name : {
+                required : '分类标题不能为空',
+				remote	 : '分类标题已存在'
+            },
+            listorder  : {
+                number   : '排序仅能为数字'
+            }
+        }
+    });
+});
+</script>
+<!--{include "footer.html"}-->

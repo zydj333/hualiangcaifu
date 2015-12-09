@@ -1,0 +1,86 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>访客留言</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/message/lists?loghash=<!--{$COM.LOGHASH}-->"><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>查看</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="article_form" method="post" name="articleForm" enctype="multipart/form-data" >
+    <input type="hidden" name="dosubmit" value="ok" />
+    <input type="hidden" name="id" value="<!--{$message_info.id}-->" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation">姓名:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.contact}-->" name="name" id="name" class="txt" readonly ></td>
+          <td class="vatop tips"></td>
+        </tr>
+				 <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation">公司名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.company}-->" name="name" id="name" class="txt" readonly ></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">联系电话:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.phone}-->" name="amount" id="amount" class="txt" readonly></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">传真号码:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.fax}-->" name="deposit" id="deposit" class="txt" readonly></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">电子邮箱:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.email}-->" name="numb" id="numb" class="txt" readonly></td>
+          <td class="vatop tips">仅为数字</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">地址:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$message_info.address}-->" name="numb" id="numb" class="txt" readonly></td>
+          <td class="vatop tips">仅为数字</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="content">留言内容:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><textarea id="content" name="content" style="width:550px;height:150px;" readonly><!--{$message_info.content}--></textarea></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation">留言时间:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<input type="text" value="<!--{date('Y-m-d H:i:s', $message_info.add_time)}-->" name="numb" id="numb" class="txt" readonly>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15" ><a href="JavaScript:history.go(-1);" class="btn" id="submitBtn"><span>返回</span></a><!--<a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a>--></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<!--{include "footer.html"}-->

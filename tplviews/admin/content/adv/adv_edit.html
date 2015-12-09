@@ -1,0 +1,132 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>广告</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/adv/lists/?loghash=<!--{$COM.LOGHASH}-->"><span>管理广告</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/adv/adv_add/?loghash=<!--{$COM.LOGHASH}-->"><span>新增广告</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/adv/ap_manage/?loghash=<!--{$COM.LOGHASH}-->"><span>管理广告位</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/adv/ap_add/?loghash=<!--{$COM.LOGHASH}-->"><span>新增广告位</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>修改</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="adv_form" enctype="multipart/form-data" method="post" name="advForm">
+    <input type="hidden" name="adv_id" value="<!--{$adv.adv_id}-->" />
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="table tb-type2">
+      <tbody>
+                <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="type_adv_name">广告名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" name="adv_name" id="type_adv_name" class="txt" value="<!--{$adv.adv_title}-->"></td>
+          <td class="vatop tips"></td>
+        </tr>
+                                                                                                                                                        <tr>
+          <td colspan="2" class="required"><label>所属广告位:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          		<select name="ap_id" id="ap_id">
+	              	<!--{foreach from=$ap item=v}-->
+				  	<option <!--{if $v.ap_id == $adv.ap_id}-->selected="selected"<!--{/if}--> value='<!--{$v.ap_id}-->'><!--{$v.ap_name}-->(<!--{$v.ap_width}-->*<!--{$v.ap_height}-->)</option>
+				  	<!--{/foreach}--> 
+			  	</select>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+       
+        <tr>
+          <td colspan="2" class="required"><label for="adv_start_date">开始时间:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" name="adv_start_date" id="adv_start_date" class="txt date" value="<!--{date('Y-m-d', $adv.adv_start_date)}-->"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="adv_end_date">结束时间:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" name="adv_end_date" id="adv_end_date" class="txt date" value="<!--{date('Y-m-d', $adv.adv_end_date+3600*8)}-->"></td>
+          <td class="vatop tips"></td>
+        </tr>
+   
+		<!--图片-->
+		<tr id="adv_pic" >
+          <input type="hidden" name="mark" value="0">
+          <td colspan="2" class="required"><label for="file_adv_pic">图片上传:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-show"><img class="show_image" src="<!--{$IMG_PATH}-->preview.png">
+            <div class="type-file-preview"><img src="<!--{$COM.BASE_URL}--><!--{$adv.content.adv_pic}-->" onload="javascript:DrawImage(this,500,500);"></div>
+            </span><span class="type-file-box">
+            <input type="file" class="type-file-file" id="file_adv_pic" name="adv_pic" size="30" />
+            </span>
+            <input type="hidden" name="pic_ori" value="<!--{$adv.content.adv_pic}-->"></td>
+          <td class="vatop tips">系统支持的图片格式为:gif,jpg,jpeg,png </td>
+        </tr>
+        <tr id="adv_pic_url">
+          <td colspan="2" class="required"><label for="type_adv_pic_url">链接地址:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" id="type_adv_pic_url" name="adv_pic_url" value="<!--{if isset($adv.content.adv_pic_url)}--><!--{$adv.content.adv_pic_url}--><!--{/if}-->" class="txt"></td>
+          <td class="vatop tips">链接地址以两种格式添加1:全地址,http://www.(yourmain).com/index.php?m=(dir)&c=(controllers)&a=(method)&(attribute)=(attribute_value)。
+           		2.局部地址：index.php?m=(dir)&c=(controllers)&a=(method)&(attribute)=(attribute_value).建议使用全地址。</td>
+        </tr>
+       
+		<tr>
+          <td colspan="2" class="required"><label for="type_adv_slide_sort">幻灯片排序:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" name="adv_slide_sort" value='<!--{$adv.slide_sort}-->' id="type_adv_slide_sort" class="txt"></td>
+          <td class="vatop tips">数字越小排序越靠前</td>
+        </tr>
+	   
+	  </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" onclick="document.advForm.submit()"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<link type="text/css" rel="stylesheet" href="<!--{$JS_PATH}-->jquery-ui/themes/ui-lightness/jquery.ui.css"/>
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->swfobject_modified.js" charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+    $('#adv_start_date').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#adv_end_date').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	var textButton="<input type='text' name='textfield' id='textfield1' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />"
+    $(textButton).insertBefore("#file_adv_pic");
+    $("#file_adv_pic").change(function(){
+	$("#textfield1").val($("#file_adv_pic").val());
+    });
+
+	var textButton="<input type='text' name='textfield' id='textfield2' class='type-file-text' /><input type='button' name='button' id='button2' value='' class='type-file-button' />"
+    $(textButton).insertBefore("#file_adv_slide_pic");
+    $("#file_adv_slide_pic").change(function(){
+	$("#textfield2").val($("#file_adv_slide_pic").val());
+    });
+
+	var textButton="<input type='text' name='textfield' id='textfield3' class='type-file-text' /><input type='button' name='button' id='button3' value='' class='type-file-button' />"
+    $(textButton).insertBefore("#file_flash_swf");
+    $("#file_flash_swf").change(function(){
+	$("#textfield3").val($("#file_flash_swf").val());
+    });
+});
+</script>
+<!--{include "footer.html"}-->
+</body>
+</html>

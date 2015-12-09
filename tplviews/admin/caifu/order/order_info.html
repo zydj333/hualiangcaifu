@@ -1,0 +1,133 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <table class="table tb-type2 order">
+    <tbody>
+      <tr class="space">
+        <th colspan="15">订单状态</th>
+      </tr>
+      <tr>
+        <td colspan="2"><ul>
+            <li><strong>订单号:</strong>&nbsp;&nbsp;&nbsp;<!--{$oinfo['id']}--></li>
+            <li><strong>订单状态:</strong><font color="red"><!--{$order_state}--></font></li>
+            <li><strong>客户姓名：<!--{$oinfo['name']}--></strong></li>
+            <li><strong>会员帐号：<!--{$ouser['username']}-->(<!--{$ouser['truename']}-->)</strong></li>
+            <li><strong>打款日期:</strong><!--{$oinfo['dk_date']}--></li>
+            <li><strong>打款金额:</strong><!--{$oinfo['dk_money']}--></li>
+            <li><strong>成立日期:</strong><!--{$oinfo['real_date']}--></li>
+            <li><strong>成立金额:</strong><!--{$oinfo['real_money']}--></li>
+          </ul></td>
+      </tr>
+      <tr class="space">
+        <th colspan="2">订单详情</th>
+      </tr>
+      <tr>
+        <th>产品信息</th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li><strong>产品名称:</strong><!--{$oproduct['name']}--></li>
+            <li><strong>产品期限:</strong><!--{$oproduct['lifetime']}-->个月</li>
+            <li><strong>报单时间:</strong><!--{date('Y-m-d H:i:s',$oinfo['post_time'])}--></li>
+       </ul></td>
+      </tr>
+      <tr>
+        <th>凭证信息</th>
+      </tr>
+			<tr>
+        <td><ul>
+            <li><strong>打款凭条:</strong><!--{if $oinfo['money_slip']}--><img src="/<!--{$oinfo['money_slip']}-->" height="200" width="280"><!--{/if}--></li>
+            <li><strong>银行卡:</strong><!--{if $oinfo['bankcard']}--><img src="/<!--{$oinfo['bankcard']}-->" height="200" width="280"><!--{/if}--></li>
+            <li><strong>身份证正面:</strong><!--{if $oinfo['idcard_up']}--><img src="/<!--{$oinfo['idcard_up']}-->" height="200" width="280"><!--{/if}--></li>
+            <li><strong>身份证反面:</strong><!--{if $oinfo['idcard_back']}--><img src="/<!--{$oinfo['idcard_back']}-->" height="200" width="280"><!--{/if}--></li>
+            <li><strong>签字页（正）:</strong><!--{if $oinfo['signature1']}--><img src="/<!--{$oinfo['signature1']}-->" height="200" width="280"><!--{/if}--></li>
+            <li><strong>签字页（反）:</strong><!--{if $oinfo['signature2']}--><img src="/<!--{$oinfo['signature2']}-->" height="200" width="280"><!--{/if}--></li>
+       </ul></td>
+      </tr>
+      <tr>
+	 
+	  
+	  
+<!--物流信息添加开始 将订单状态修改为已发货的时候 需要填写下面的信息-->	  
+
+    </tbody>
+    <tfoot>
+      <tr class="tfoot">
+	  		<td colspan="5">
+	  			<a href="JavaScript:void(0);" class="btn" onclick="history.go(-1)"><span>返回</span></a>
+	  			
+	  			<a href="JavaScript:void(0);" class="<!--{if $oinfo['status']==1}-->btn<!--{else}-->btn2<!--{/if}-->" <!--{if $oinfo['status']==1}-->onclick="nextstate('<!--{$oinfo['id']}-->')"<!--{/if}-->>
+		      	<span>已成立</span>
+		   		</a>
+		
+		   		<a href="JavaScript:void(0);" class="<!--{if $oinfo['status']==2}-->btn<!--{else}-->btn2<!--{/if}-->"  <!--{if $oinfo['status']==2}-->onclick="nextstate('<!--{$oinfo['id']}-->')"<!--{/if}-->>
+		     		<span>已驳回</span>
+		   		</a>
+		   
+		 		</td> 
+
+		
+	
+	  
+	  
+	  
+	  
+	  </tr>
+    </tfoot>
+  </table>
+</div>
+<script type="text/javascript">
+
+function nextstate(orderSn){
+  if(confirm('您确定修改订单的当前状态?')){
+           
+           location.href="<!--{$COM.ADMIN_URL}-->caifu/order/state_next/?loghash=<!--{$COM.LOGHASH}-->&order_sn="+orderSn;
+ 	}
+}
+
+function changeprice(recid){
+	if(confirm('您确定要修改订单的价格吗？')){
+		var rec_id = recid;
+		var goods_price = $("#orderprice_"+recid).val();
+
+		$.ajax({
+		  type:'get',
+			url: '/admin.php/order/order/ajax_change_price?rec_id='+rec_id+'&goods_price='+goods_price,
+			dataType: 'json',
+			success:function(data){
+				$("#order_amount1").html(data["order_total"]);
+				$("#order_amount2").html(data["order_total"]);
+				$("#subtotal_"+rec_id).html(data["sub_total"]);
+			}
+		});
+	}
+}
+
+function changenum(recid){
+	if(confirm('您确定要修改订单的数量吗？')){
+		var rec_id = recid;
+		var goods_num = $("#ordernum_"+recid).val();
+
+		$.ajax({
+		  type:'get',
+			url: '/admin.php/order/order/ajax_change_num?rec_id='+rec_id+'&goods_num='+goods_num,
+			dataType: 'json',
+			success:function(data){
+				$("#order_amount1").html(data["order_total"]);
+				$("#order_amount2").html(data["order_total"]);
+				$("#subtotal_"+rec_id).html(data["sub_total"]);
+			}
+		});
+	}
+}
+
+function addreturn(recid) {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'退货',id:'adddialog',iframe:'<!--{$COM.ADMIN_URL}-->order/order/apply_return/?loghash=<!--{$COM.LOGHASH}-->&rec_id='+recid,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+
+function addfix(recid) {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'返修',id:'adddialog',iframe:'<!--{$COM.ADMIN_URL}-->order/order/apply_fix/?loghash=<!--{$COM.LOGHASH}-->&rec_id='+recid,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+</script> 
+<!--{include "footer.html"}-->

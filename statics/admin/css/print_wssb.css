@@ -1,0 +1,152 @@
+BODY {
+	SCROLLBAR-FACE-COLOR: #dee3e7; FONT-SIZE: 12px; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #dee3e7; SCROLLBAR-3DLIGHT-COLOR: #d1d7dc; SCROLLBAR-ARROW-COLOR: #006699; SCROLLBAR-TRACK-COLOR: #efefef; SCROLLBAR-DARKSHADOW-COLOR: #98aab1; topMargin: 0 
+	MARGINHEIGHT:0 
+	MARGINWIDTH:0
+}
+TABLE {
+	FONT-SIZE: 12px
+}
+TD {
+	FONT-SIZE: 12px; COLOR: #000000
+}
+.INPUT {
+	BORDER-RIGHT: #cccccc 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: black 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; BACKGROUND: #fcf8fc; PADDING-BOTTOM: 1px; BORDER-LEFT: #000033 1px solid; COLOR: green; PADDING-TOP: 1px; BORDER-BOTTOM: #cccccc 1px solid
+}
+.INPUT1 {
+	FONT-SIZE: 12px; BACKGROUND: #fcf8fc
+}
+.button {
+	BORDER-RIGHT: #333333 1px solid; BORDER-TOP: #fbfbfb 1px solid; FONT-SIZE: 12px; BACKGROUND: #d8d8d8; BORDER-LEFT: #fbfbfb 1px solid; CURSOR: hand; COLOR: #333333; PADDING-TOP: 1px; BORDER-BOTTOM: #003333 1px solid; HEIGHT: 20px
+}
+.textarea {
+	BORDER-RIGHT: #cccccc 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: black 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; BACKGROUND: #f5f5f5; PADDING-BOTTOM: 1px; BORDER-LEFT: #000033 1px solid; COLOR: #666666; PADDING-TOP: 1px; BORDER-BOTTOM: #cccccc 1px solid; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.dropshadow {
+	FILTER: DropShadow(Color=#ffffff, OffX=1, OffY=1, Positive=1)
+}
+.glow {
+	FILTER: Glow(Color=gray, Strength=2)
+}
+.alpha {
+	FILTER: Alpha(Opacity=100, FinishOpacity=20,style=2, StartX=0, StartY=0, FinishX=100, FinishY=20); COLOR: #ffffff
+}
+.flipv {
+	FILTER: FlipV
+}
+.bg {
+	BACKGROUND-POSITION: center 50%; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(/images/background.gif)
+}
+.sp {
+	BORDER-RIGHT: rgb(127,127,127) 0px solid; BORDER-TOP: rgb(127,127,127) 0px solid; FONT-SIZE: 12px; BORDER-LEFT: rgb(127,127,127) 0px solid; BORDER-BOTTOM: rgb(127,127,127) 0px solid; BACKGROUND-COLOR: #ffffff
+}
+.unnamed1 {
+	FONT-SIZE: 12px; TEXT-DECORATION: none
+}
+A.a03:link {
+	FONT-SIZE: 12px; COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.a03:visited {
+	FONT-SIZE: 12px; COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.a03:active {
+	FONT-SIZE: 12px; TEXT-DECORATION: none
+}
+A.a03:hover {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+A.a04:link {
+	FONT-SIZE: 12px; COLOR: #000080; TEXT-DECORATION: none
+}
+A.a04:visited {
+	FONT-SIZE: 12px; COLOR: #000080; TEXT-DECORATION: none
+}
+A.a04:active {
+	FONT-SIZE: 12px; TEXT-DECORATION: none
+}
+A.a04:hover {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+A.a02:link {
+	FONT-SIZE: 12px; COLOR: #ffff00; TEXT-DECORATION: none
+}
+A.a02:visited {
+	FONT-SIZE: 12px; COLOR: #ffff00; TEXT-DECORATION: none
+}
+A.a02:active {
+	FONT-SIZE: 12px; TEXT-DECORATION: none
+}
+A.a02:hover {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+A.a05:link {
+	FONT-SIZE: 12px; COLOR: #000080; TEXT-DECORATION: none
+}
+A.a05:visited {
+	FONT-SIZE: 12px; COLOR: #000080; TEXT-DECORATION: none
+}
+A.a05:active {
+	FONT-SIZE: 12px; TEXT-DECORATION: none
+}
+A.a05:hover {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+.pop1 {
+	FONT-SIZE: 12px; COLOR: #000066; FONT-FAMILY: "宋书"
+}
+.pop {
+	FONT-SIZE: 12px; FONT-FAMILY: "宋书"
+}
+.mypop {
+	FONT-SIZE: 12px; COLOR: #000080; FONT-FAMILY: "宋书"
+}
+.mypop1 {
+	FONT-SIZE: 12px; COLOR: #ffff00; FONT-FAMILY: "宋书"
+}
+.mypop2 {
+	FONT-SIZE: 12px; FONT-FAMILY: "宋书"
+}
+.mypup2 {
+	FONT-SIZE: 12px; COLOR: #ff0000; FONT-FAMILY: "宋书"
+}
+.mypup3 {
+	FONT-SIZE: 12px; COLOR: #ff0000; FONT-FAMILY: "宋书"
+}
+.mypup {
+	FONT-SIZE: 20pt; COLOR: #000080; FONT-FAMILY: "华文新魏"
+}
+.pup {
+	FONT-SIZE: 12px; FONT-FAMILY: "Arial", "Helvetica", "sans-serif"
+}
+.a01 {
+	FONT-SIZE: 12px; COLOR: #ffff00; TEXT-DECORATION: none
+}
+.a02 {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+.a03 {
+	FONT-SIZE: 12px; COLOR: #cc3300; TEXT-DECORATION: none
+}
+.a04 {
+	FONT-SIZE: 12px; COLOR: #0000ff; TEXT-DECORATION: none
+}
+.pageEnd {
+	PAGE-BREAK-AFTER: always
+}
+UNKNOWN {
+	BORDER-RIGHT: #000000 1px; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px
+}
+
+.b1 {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #000000;
+	border-left-color: #FFFFFF;
+}

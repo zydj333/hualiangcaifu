@@ -1,0 +1,76 @@
+<!--{include "header.html"}-->
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>案例分类</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/help/article_category_add?code=<!--{$codetype}-->&loghash=<!--{$COM.LOGHASH}-->" ><span>新增</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/help/article_category_cache?code=<!--{$codetype}-->&loghash=<!--{$COM.LOGHASH}-->" ><span>更新缓存</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th class="nobg" colspan="12"><div class="title">
+            <h5>操作提示</h5>
+            <span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li>管理员新增文章时，可选择文章分类。文章分类将在前台文章列表页显示</li>
+            <li>默认的文章分类不可以删除</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form method='post' id="listfrom">
+    <input type="hidden" name="form_submit" value="ok" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="thead">
+          <th class="w36"></th>
+          <th class="w48">排序</th>
+          <th>分类名称</th>
+          <th class="w96 align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody id="treet1">
+        <!--{if $infolist}-->
+	    <!--{foreach from=$infolist item=v}-->
+        <tr class="hover edit">
+          <td><input name="del_id[]" type="checkbox"  value="<!--{$v.ac_id}-->"  class="checkitem" /><!--{if $v.have_child == 1}--><img admin_url='<!--{$COM.ADMIN_URL}-->' fieldid="<!--{$v.ac_id}-->" fieldcode="help" js='<!--{$JS_PATH}-->' url='<!--{$IMG_PATH}-->' loghash='<!--{$COM.LOGHASH}-->' status="open" ectype="flex" src="<!--{$IMG_PATH}-->tv-expandable.gif"><!--{else}--><img fieldid="1" fieldcode="help" status="close" nc_type="flex" src="<!--{$IMG_PATH}-->tv-item.gif"><!--{/if}--></td>
+          <td class="sort"><input type="hidden" name="hdnid[]" value="<!--{$v.ac_id}-->" /><input type="text" value="<!--{$v.listorder}-->" name="listorder[]" id="listorder[]" class="txt-short"></td>
+          <td class="name"><span title="<!--{$v.ac_name}-->" required="1" fieldid="1" ajax_branch='article_class_name' fieldname="ac_name" nc_type="inline_edit" class="editable tooltip"><!--{$v.ac_name}--></span> <a class='btn-add-nofloat marginleft' href="<!--{$COM.ADMIN_URL}-->content/help/article_category_add?code=<!--{$codetype}-->&loghash=<!--{$COM.LOGHASH}-->&parent_id=<!--{$v.ac_id}-->"><span>新增下级</span></a></td>
+          <td class="align-center"><a href="<!--{$COM.ADMIN_URL}-->content/help/article_category_edit?loghash=<!--{$COM.LOGHASH}-->&ac_id=<!--{$v.ac_id}-->">编辑</a>
+            </td>
+        </tr>
+        <!--{/foreach}-->
+                      </tbody>
+      <tfoot>
+                <tr>
+          <td><label for="checkall1">
+              <input type="checkbox" class="checkall" id="checkallBottom">
+            </label></td>
+          <td colspan="16"><label for="checkallBottom">全选</label>
+            &nbsp;&nbsp;<a href="JavaScript:void(0);" class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->content/help/article_category_del/?code=<!--{$codetype}-->&loghash=<!--{$COM.LOGHASH}-->','del_id[]');"><span>删除</span></a>
+			<a href="JavaScript:void(0);" class="btn" onclick="doOrder('<!--{$COM.ADMIN_URL}-->content/help/article_category_order/?code=<!--{$codetype}-->&loghash=<!--{$COM.LOGHASH}-->');"><span>排序</span></a>
+			</td>
+        </tr>
+              </tfoot>
+              <!--{else}-->
+              <tfoot>
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+        </tbody>
+		<!--{/if}-->
+    </table>
+  </form>
+</div>
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery.edit.js" charset="utf-8"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery.help_class.js" charset="utf-8"></script>
+<!--{include "footer.html"}-->

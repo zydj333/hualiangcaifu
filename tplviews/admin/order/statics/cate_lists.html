@@ -1,0 +1,118 @@
+<!--{include "header.html"}-->
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>分类统计</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" action="<!--{$COM.ADMIN_URL}-->order/statics/catelist?loghash=<!--{$COM.LOGHASH}-->" name="formSearch">
+      <input type="hidden" name="loghash" value="<!--{$COM.LOGHASH}-->" />
+      <input type="hidden" name="dosubmit" value="ok">
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+          <th><label>订单状态</label></th>
+          <td colspan="4"><select name="status" class="querySelect">
+              <option value="10"  <!--{if $sel.status==10 }-->selected<!--{/if}-->>待付款</option>
+              <option value="20"  <!--{if $sel.status==20 }-->selected<!--{/if}-->>待发货</option>
+              <option value="30"  <!--{if $sel.status==30 }-->selected<!--{/if}-->>已开票</option>
+              <option value="40"  <!--{if $sel.status==40 }-->selected<!--{/if}-->>已完成</option>
+              <option value="50"  <!--{if $sel.status==50 }-->selected<!--{/if}-->>已取消</option>
+              <option value="60"  <!--{if $sel.status==50 }-->selected<!--{/if}-->>已确认</option>
+            </select>
+            <label style=" margin-left:20px;">区域</label>
+            <select name="search_area" id="search_area" class="querySelect">
+            <!--{foreach from=$arealist item=v}-->
+            <option value="<!--{$v.id}-->"><!--{$v.name}--></option>
+            <!--{/foreach}-->
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th><label for="add_time_from">下单时间</label></th>
+          <td><input class="txt date" type="text" value="<!--{$sel.add_time_st}-->" id="add_time_st" name="add_time_st">
+            <label for="add_time_to">~</label>
+            <input class="txt date" type="text" value="<!--{$sel.add_time_en}-->" id="add_time_en" name="add_time_en"/></td>
+          <td><a href="javascript:document.formSearch.submit();" class="btn-search tooltip" title="查询">&nbsp;</a>
+          	<!--{if isset($form_submit)}--><a href="<!--{$COM.ADMIN_URL}-->order/statics/lists?loghash=<!--{$COM.LOGHASH}-->" class="btns tooltip"><span>撤销检索</span></a><!--{/if}-->
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  
+  <form method="post" id="listfrom">
+  <table class="table tb-type2 nobdb">
+    <thead>
+      <tr class="thead">
+      	<th>&nbsp;</th>
+        <th>产品分类</th>
+        <th>数量</th>
+        <th>总额</th>
+      </tr>
+    </thead>
+    <tbody>
+<!--{if $statics}-->
+	<!--{foreach from=$statics item=v}-->
+       <tr class="hover">
+       	<td class="w24"></td>
+        <td><!--{$v.gc_name}--></td>
+        <td><!--{$v.total_nums}--></td>
+        <td><!--{$v.total_amount}--></td>
+      </tr>
+      <!--{if $v.fprods_loop}-->
+      <!--{foreach from=$v.fprods_loop item=vll}-->
+      <tr class="hover">
+       	<td class="w24"></td>
+        <td>&nbsp;&nbsp;<!--{$vll.goods_name}--></td>
+        <td><!--{$vll.total_nums}--></td>
+        <td><!--{$vll.total_amount}--></td>
+      </tr>
+      <!--{/foreach}-->
+      <!--{/if}-->
+      <!--{foreach from=$v.sub item=val}-->
+      <tr class="hover">
+       	<td class="w24"></td>
+        <td>&nbsp;&nbsp;<!--{$val.gc_name}--></td>
+        <td><!--{$val.total_nums}--></td>
+        <td><!--{$val.total_amount}--></td>
+      </tr>
+      <!--{if $val.prods_loop}-->
+      <!--{foreach from=$val.prods_loop item=valval}-->
+      <tr class="hover">
+       	<td class="w24"></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;<!--{$valval.goods_name}--></td>
+        <td><!--{$valval.total_nums}--></td>
+        <td><!--{$valval.total_amount}--></td>
+      </tr>
+      <!--{/foreach}-->
+      <!--{/if}-->
+      <!--{/foreach}-->
+  <!--{/foreach}-->
+<!--{else}-->
+		<tr class="no_data">
+          <td colspan="2">暂无数据</td>
+        </tr>
+		<!--{/if}-->
+                </tbody>
+    <tfoot>
+          
+    </tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="<!--{$COM.JS_PATH}-->jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript">
+$(function(){
+    $('#add_time_st').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_en').datepicker({dateFormat: 'yy-mm-dd'});
+});
+</script>
+<!--{include "footer.html"}-->

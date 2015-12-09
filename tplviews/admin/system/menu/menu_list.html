@@ -1,0 +1,109 @@
+<!--{include "header.html"}-->
+<!--{if $data.isleft eq 1 and $data.site_id eq 0 }-->
+<script>
+parent.document.getElementById('display_center_id').style.display='';
+parent.document.getElementById('center_frame').src='<!--{$admin_url}-->system/menu/menu_left?loghash=<!--{$COM.LOGHASH}-->';
+</script>
+<!--{/if}-->
+<!--{if $data.ac eq 1 }-->
+<script>
+var _parentWin = window.parent ;
+_parentWin.center_frame.refreashNode.click();
+</script>
+<!--{/if}-->
+<!--{if $data.site_id neq 0 }-->
+<div class="page">
+  	<div class="fixed-bar">
+    	<div class="item-title">
+      		<h3>系统菜单</h3>
+      		<ul class="tab-base">
+        		<li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+		        <li><a href="javascript:add(<!--{$data.pid}-->);" ><span>新增</span></a></li>
+		        <li><a href="<!--{$admin_url}-->system/menu/menu_cache?loghash=<!--{$COM.LOGHASH}-->&site_id=<!--{$data.site_id}-->" ><span>更新缓存</span></a></li>
+      		</ul>
+    	</div>
+  	</div>
+	<div class="fixed-empty"></div>
+<!--{if $data.menuinfo|@count neq 0}-->
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th class="nobg" colspan="12"><div class="title"><h5>当前权限/菜单描述</h5><span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td>
+        <ul>
+            <li>权限菜单：<!--{$data.menuinfo.name}--></li>
+            <li>参数说明：模块名=<!--{$data.menuinfo.m}-->;文件名=<!--{$data.menuinfo.c}-->;方法名=<!--{$data.menuinfo.a}--></li>
+            <li>额外参数：<!--{if $data.menuinfo.data eq null}-->无<!--{else}--><!--{$data.menuinfo.data}--><!--{/if}-->;显示状态：<!--{if $data.menuinfo.isshow eq 1}-->是<!--{else}-->否<!--{/if}--></li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+<!--{/if}-->
+<form method='post'>
+    <input type="hidden" name="dosubmit" value="1" />
+    <input type="hidden" name="parent_id" value="<!--{$data.pid}-->" />
+    <input type="hidden" name="site_id" value="<!--{$data.site_id}-->" />
+    <table class="table tb-type2">
+      	<thead>
+        <tr class="thead">
+        	<th>排序</th>
+          	<th>ID</th>
+          	<th></th>
+          	<th>子权限/菜单名称</th>
+          	<th>m/c/a</th>
+          	<th class="align-center">显示</th>
+          	<th class="align-center">菜单</th>
+          	<th>操作</th>
+        </tr>
+      	</thead>
+<tbody>
+<!--{foreach from=$menulist item=v}-->
+<tr class="hover edit">
+	<td class="w48 sort"><input type="hidden" value="<!--{$v.id}-->" name="id[]" id="id[]" /><input type="text" value="<!--{$v.listorder}-->" name="listorder[]" id="listorder[]" class="txt-short"></td>
+	<td style='width:40px'><!--{$v.id}--><td>
+	<td class="w25pre name"><span ><!--{$v.name}--></span></td>
+	<td><!--{$v.m}-->/<!--{$v.c}-->/<!--{$v.a}--></td>
+	<td class="align-center yes-onoff"><a href="JavaScript:void(0);" class="<!--{if $v.isshow eq 1}-->enabled<!--{else}-->disabled<!--{/if}-->" ><img src="<!--{$base_url}-->statics/admin/images/transparent.gif"></a></td>
+	<td class="align-center yes-onoff"><a href="JavaScript:void(0);" class="<!--{if $v.ismenu eq 1}-->enabled<!--{else}-->disabled<!--{/if}-->" ><img src="<!--{$base_url}-->statics/admin/images/transparent.gif"></a></td>
+	<td class="w120"><a href="javascript:edit('<!--{$v.id}-->','<!--{$v.name}-->');">编辑</a> | <a href="javascript:del(<!--{$v.id}-->);">删除</a></td>
+</tr>
+<!--{/foreach}-->
+</tbody>
+		<tfoot>
+        <tr class="tfoot">
+          <td id="batchAction" colspan="15"><a href="JavaScript:void(0);" class="btn" onclick="order();"><span>排序</span></a></td>
+        </tr>
+      	</tfoot>
+	</table>
+</form>
+<!--{/if}-->
+</div>
+<link rel="stylesheet" href="<!--{$JS_PATH}-->jalert/jquery.alerts.css" type="text/css" />
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery.alerts.js"></script>
+
+<script type="text/javascript">
+function add(pid) {
+	window.location.href='<!--{$admin_url}-->system/menu/menu_add?loghash=<!--{$COM.LOGHASH}-->&site_id=<!--{$data.site_id}-->&pid='+pid;
+	//window.top.art.dialog({id:'adddialog'}).close();
+	//window.top.art.dialog({title:'添加菜单',id:'adddialog',iframe:'<!--{$admin_url}-->system/menu/menu_add?site_id=<!--{$data.site_id}-->&pid='+pid,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+function edit(id, name) {
+	window.location.href='<!--{$admin_url}-->system/menu/menu_edit?loghash=<!--{$COM.LOGHASH}-->&site_id=<!--{$data.site_id}-->&id='+id;
+	//window.top.art.dialog({id:'editdialog'}).close();
+	//window.top.art.dialog({title:'修改菜单《'+name+'》',id:'editdialog',iframe:'<!--{$admin_url}-->system/menu/menu_edit?site_id=<!--{$data.site_id}-->&id='+id,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'editdialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'editdialog'}).close()});
+}
+function del(id) {
+	jConfirm('删除该分类将会同时删除该分类的所有下级分类，您确定要删除吗?', '提示对话框', function(r) {
+		 if(r){ $("form:eq(0)").attr("action", "<!--{$admin_url}-->system/menu/menu_del?loghash=<!--{$COM.LOGHASH}-->&id="+id).submit();}
+	});
+//	if(confirm('删除该分类将会同时删除该分类的所有下级分类，您确定要删除吗?')){
+//		$("form:eq(0)").attr("action", "<!--{$admin_url}-->system/menu/menu_del?id="+id).submit();
+//	}
+}
+function order() {
+	 $("form:eq(0)").attr("action", "<!--{$admin_url}-->system/menu/menu_order?loghash=<!--{$COM.LOGHASH}-->").submit();
+}
+</script>
+<!--{include "footer.html"}-->

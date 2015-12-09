@@ -1,0 +1,1 @@
+a:3:{s:4:"time";i:1432544175;s:3:"ttl";i:315360000;s:4:"data";a:6:{s:10:"email_host";s:12:"smtp.163.com";s:8:"email_id";s:17:"563775430@163.com";s:10:"email_pass";s:12:"aa_563775430";s:10:"email_port";s:2:"25";s:10:"email_addr";s:17:"563775430@163.com";s:13:"email_enabled";s:1:"1";}}

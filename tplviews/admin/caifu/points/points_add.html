@@ -1,0 +1,196 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>积分产品</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->caifu/points/lists/?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="graphic_form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="pic_title">产品名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="name2" id="name2" class="txt"></td>
+          <td class="vatop tips">请填写积分产品名称</td>
+        </tr>
+        <tr class="noborder" >
+          <td colspan="2" ><label for="points_image">缩略图:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-box">
+            <input type="file" name="points_image" id="points_image" class="type-file-file" size="30" >
+            </span></td>
+          <td class="vatop tips">请选择图片</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="market_price">参考市场价格:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="market_price" id="market_price" class="txt"></td>
+          <td class="vatop tips">单位：元</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">兑换积分:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="points" id="points" class="txt"></td>
+          <td class="vatop tips">仅为数字</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">排序:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="255" name="listorder" id="listorder" class="txt"></td>
+          <td class="vatop tips">数字越小越靠前</td>
+        </tr>
+				<tr>
+          <td colspan="2" class="required"><label for="content">详细介绍:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          <textarea id="content" name="content" style="width:650px;height:400px;visibility:hidden;"></textarea>
+<script src="<!--{$JS_PATH}-->kindeditor/kindeditor-min.js" charset="utf-8"></script>
+<script src="<!--{$JS_PATH}-->kindeditor/lang/zh_CN.js" charset="utf-8"></script>
+<script>
+	var KE;
+  KindEditor.ready(function(K) {
+        KE = K.create("textarea[name='content']", {
+						items : ['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+			'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+			'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+			'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+			'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+			'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about'],
+						cssPath : "<!--{$JS_PATH}-->kindeditor/themes/default/default.css",
+						//allowImageUpload : false,
+						allowFlashUpload : false,
+						allowMediaUpload : false,
+						allowFileManager : false,
+						syncType:"form",
+						afterCreate : function() {
+							var self = this;
+							self.sync();
+						},
+						afterChange : function() {
+							var self = this;
+							self.sync();
+						},
+						afterBlur : function() {
+							var self = this;
+							self.sync();
+						}
+        });
+			KE.appendHtml = function(id,val) {
+				this.html(this.html() + val);
+				if (this.isCreated) {
+					var cmd = this.cmd;
+					cmd.range.selectNodeContents(cmd.doc.body).collapse(false);
+					cmd.select();
+				}
+				return this;
+			}
+	});
+</script>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+				<tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="isshow"> 显示:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><ul>
+              <li>
+                <input type="radio" name="status" id="status0" value="0" checked="checked"/>
+                <label for="s_dtype_text">是</label>
+              </li>
+              <li>
+                <input type="radio" name="status" id="status1" value="1"   />
+                <label for="s_dtype_image">否</label>
+              </li>
+            </ul></td>
+          <td class="vatop tips"></td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#graphic_form").valid()){
+     $("#graphic_form").submit();
+	}
+	});
+});
+
+//
+$(document).ready(function(){
+	$('#graphic_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+		    		pic_category : {
+                required : true
+            },
+						pic_title : {
+                required : true,
+								remote	: {
+                    url :'<!--{$COM.ADMIN_URL}-->content/graphic/ajax_public_check_graphic/?loghash=<!--{$COM.LOGHASH}-->&mt'+Math.random(),
+                    type:'get',
+                    data:{
+                    	pic_title : function(){
+                            return $('#pic_title').val();
+                        },
+                    }
+               }
+            },
+            listorder : {
+                number   : true
+            }
+        },
+        messages : {
+		    		pic_category : {
+                required : '分类不能为空'
+            },
+						pic_title  : {
+                required :  '信息标题不能为空',
+								remote	 :  '该信息标题已存在'
+            },
+            listorder  : {
+                number   : '排序仅能为数字'
+            }
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+$(function(){
+    var textButton="<input type='text' name='textfield' id='textfield1' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />"
+	$(textButton).insertBefore("#points_image");
+	$("#points_image").change(function(){
+		$("#textfield1").val($("#points_image").val());
+	});
+});
+</script>
+</body>
+</html>

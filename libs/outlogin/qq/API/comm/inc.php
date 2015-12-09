@@ -1,0 +1,2 @@
+<?php die('forbidden'); ?>
+{"appid":"101001041","appkey":"4e82b2a75807cc6587ceea66596cd2b9","callback":"http://demo.99meijiu.com/","scope":"get_user_info","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}

@@ -1,0 +1,132 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>产品价格库</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/price/lists?loghash=<!--{$COM.LOGHASH}-->"><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="price_form" method="post" name="price_form" enctype="multipart/form-data" >
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation">产品系列名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<select name="cateid" id="cateid">
+          		<option value="">----请选择----</option>
+          		<!--{foreach from=$catelist item=v}-->
+          		<option value="<!--{$v.column_value}-->"><!--{$v.column_title}--></option>
+							<!--{/foreach}-->
+          	</select>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">产品规格:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="prod_spec" id="prod_spec" class="txt"></td>
+          <td class="vatop tips">请填写吨位</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label >标准米数:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="stand_height" id="stand_height" class="txt"></td>
+          <td class="vatop tips">标准米数为0，表示该产品不具米数规格,单位为米</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label >每米差价:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="each_price" id="each_price" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">标准价格:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="price" id="price" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">排序号:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="listorder" id="listorder" class="txt"></td>
+          <td class="vatop tips">仅为数字</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15" ><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#price_form").valid()){
+     $("#price_form").submit();
+	}
+	});
+});
+//
+$(document).ready(function(){
+	$('#price_form').validate({
+        errorPlacement: function(error, element){
+					error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+            cateid : {
+                required   : true
+            },
+						prod_spec : {
+                required   : true
+            },
+						price : {
+								required   : true
+            },
+            listorder : {
+								number   : true
+            }
+        },
+        messages : {
+            cateid : {
+                required   : '请选择产品系列'
+            },
+						prod_spec : {
+                required   : '请输入产品规格'
+            },
+						price : {
+								required : '请填写产品价格'
+            },
+            listorder : {
+								number : '仅为数字'
+            }
+        }
+    });
+
+
+});
+
+
+
+</script>
+<!--{include "footer.html"}-->

@@ -1,0 +1,133 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>产品分类</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/category/category_list/?loghash=<!--{$COM.LOGHASH}-->"><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/category/category_add/?loghash=<!--{$COM.LOGHASH}-->" ><span>新增</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>编辑</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th class="nobg" colspan="12"><div class="title"><h5>操作提示</h5><span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td>
+        <ul>
+            <li>"类型"关系到商品发布时商品规格的添加，没有类型的商品分类的将不能添加规格。</li>
+            <li>默认勾选"关联到子分类"将商品类型附加到子分类，如子分类不同于上级分类的类型，可以取消勾选并单独对子分类的特定类型进行编辑选择。</li>
+            <li>在编辑"类型"和勾选"关联到子分类"时，涉及分类下的商品将会被进行"违规下架"处理，商品在重新编辑后才能正常使用，<span style="color:#F30">请慎重操作</span>。</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form id="goods_class_form" name="goodsClassForm" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <input type="hidden" name="gc_id" id="gc_id" value="<!--{$data.gc_id}-->" />
+    <input type="hidden" name="gc_parent_id" id="gc_parent_id" value="<!--{$data.parent_id}-->" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="gc_name validation">分类名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$data.gc_name}-->" name="gc_name" id="gc_name" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label>显示:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform onoff"><label for="gc_show1" class="cb-enable <!--{if $data.isshow == '1'}-->selected<!--{/if}-->"><span>是</span></label>
+            <label for="gc_show0" class="cb-disable <!--{if $data.isshow == '0'}-->selected<!--{/if}-->"><span>否</span></label>
+            <input id="gc_show1" name="gc_show" <!--{if $data.isshow == '1'}-->checked="checked"<!--{/if}--> value="1" type="radio">
+            <input id="gc_show0" name="gc_show" <!--{if $data.isshow == '0'}-->checked="checked"<!--{/if}--> value="0" type="radio">
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label>推荐:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform onoff"><label for="gc_index_show1" class="cb-enable <!--{if $data.gc_index_show == '1'}-->selected<!--{/if}-->"><span>是</span></label>
+            <label for="gc_index_show0" class="cb-disable <!--{if $data.gc_index_show == '0'}-->selected<!--{/if}-->"><span>否</span></label>
+            <input id="gc_index_show1" name="gc_index_show" <!--{if $data.gc_index_show == '1'}-->checked="checked"<!--{/if}--> value="1" type="radio">
+            <input id="gc_index_show0" name="gc_index_show" <!--{if $data.gc_index_show == '0'}-->checked="checked"<!--{/if}--> value="0" type="radio"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="gc_sort">排序:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$data.listorder}-->" name="gc_sort" id="gc_sort" class="txt"></td>
+          <td class="vatop tips">数字范围为0~255，数字越小越靠前</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot"><td colspan="15" ><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+$(function(){
+
+	$("#submitBtn").click(function(){
+		if($("#goods_class_form").valid()){
+			$("#goods_class_form").submit();
+		}
+	});
+
+	$('#goods_class_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+            gc_name : {
+                required : true,
+                remote   : {
+                url :'<!--{$COM.ADMIN_URL}-->goods/category/ajax_category_name/?loghash=<!--{$COM.LOGHASH}-->&mt'+Math.random(),
+                type:'get',
+                data:{
+                    gc_name : function(){
+                        return $('#gc_name').val();
+                    },
+                    gc_parent_id : function() {
+                        return $('#gc_parent_id').val();
+                    },
+                    gc_id : function() {
+                        return $('#gc_id').val();
+                    },
+                  }
+                }
+            },
+            gc_sort : {
+                number   : true
+            }
+        },
+        messages : {
+            gc_name : {
+                required : '分类名称不能为空',
+                remote   : '该分类名称已经存在了，请您换一个'
+            },
+            gc_sort  : {
+                number   : '分类排序仅能为数字'
+            }
+        }
+    });
+});
+</script></body>
+</html>

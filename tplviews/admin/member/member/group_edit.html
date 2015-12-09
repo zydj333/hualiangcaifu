@@ -1,0 +1,118 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <form id="infoform" name="infoform" method="post">
+     <input type="hidden" name="dosubmit" value="1" />
+      <input type="hidden" name="info[id]" id="info[id]" value="<!--{$info.id}-->" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr><td colspan="2" class="required"><label class="validation" for="info[groupname]">会员组名称:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.groupname}-->" name="info[groupname]" id="info[groupname]" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr><td colspan="2" class="required"><label class="validation" for="info[listorder]">排序:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.listorder}-->" name="info[listorder]" id="info[listorder]" class="txt"></td>
+          <td class="vatop tips">数字范围为0~255，数字越小越靠前</td>
+        </tr>
+        <!--
+        <tr><td colspan="2" class="required"><label class="validation" for="info[discount]">折扣率:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="$info.discount" name="info[discount]" id="info[discount]" class="txt">%</td>
+          <td class="vatop tips">折扣率，例如：如果输入90，表示该会员组可以以商品原价的90%购买（允许包含小数）。</td>
+        </tr>-->
+      </tbody>
+      </table>
+    	<table class="table tb-type2">
+              <thead class="thead">
+              <tr class="space"><th colspan="15"><label>添加产品系列折扣</label></th></tr>
+                <tr class="noborder">
+                  <th></th>
+                  <th>产品系列</th>
+                  <th>产品折扣</th>
+                  <th>促销折扣</th>
+                  <!--<th class="align-center">操作</th>-->
+                </tr>
+              </thead>
+              <tbody id="tr_model">
+              	<tr></tr>
+              	<!--{assign var="n" value=0}-->
+              	<!--{foreach from=$catelist item=v}-->
+                <tr class="hover edit">
+                  <td class="w48 sort"><input type="hidden" name="s_value[<!--{$n}-->][id]" value="<!--{$v['column_value']}-->" /></td>
+                  <td class="name w270"><input type="text" name="s_value[<!--{$n}-->][name]" value="<!--{$v['column_title']}-->" readonly /></td>
+                  <td class="image_display vatop rowform w300"><input type="text" name="s_value[<!--{$n}-->][discount]" value="<!--{$v['discount']}-->" /></td>
+                  <td class="image_display vatop rowform w300"><input type="text" name="s_value[<!--{$n}-->][cxdiscount]" value="<!--{$v['cxdiscount']}-->" /></td>
+                  <!--<td class="w150 align-center"><a onclick="remove_tr($(this));" href="JavaScript:void(0);">移除</a></td>-->
+                </tr>
+                <!--{assign var="n" value=$n+1}-->
+                <!--{/foreach}-->
+              </tbody>
+      	<tfoot>
+        <tr  style='display:none;'class="tfoot"><td colspan="15" ><a href="JavaScript:void(0);"  class="btn"  id="submitBtn"><span>提交</span></a></td></tr>
+      </tfoot>
+    </table>
+    <input style='display:none;' type="submit" name="dosubmit" id="dosubmit" value=" 提交 ">
+  </form>
+</div>
+<script>
+$(document).ready(function(){
+	//按钮先执行验证再提交表单
+	$("#submitBtn").click(function(){
+	    if($("#infoform").valid()){
+	     $("#infoform").submit();
+		}
+	});
+
+	$('#infoform').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+            'info[groupname]' : {
+                required : true,
+            },
+//            'info[minexp]' : {
+//                number   : true
+//            },
+//            'info[maxexp]' : {
+//                number   : true
+//            },
+            'info[listorder]' : {
+                number   : true
+            },
+            'info[discount]' : {
+                number   : true
+            },
+        },
+        messages : {
+            'info[groupname]'  : {
+                required : '请输入会员组名称',
+            },
+//            'info[minexp]'  : {
+//                number   : '上限积分仅能为数字'
+//            },
+//            'info[maxexp]'  : {
+//                number   : '下限积分仅能为数字'
+//            },
+            'info[listorder]'  : {
+                number   : '排序号仅能为数字'
+            },
+            'info[discount]'  : {
+                number   : '折扣率仅能为数字'
+            }
+        }
+    });
+
+
+});
+
+
+
+</script>
+<!--{include "footer.html"}-->

@@ -1,0 +1,83 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>访客留言</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" name="formSearch">
+    <input type="hidden" name="loghash" value="<!--{$COM.LOGHASH}-->" />
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+        	<th><label>标题</label></th>
+          <td><input type="text" value="<!--{if isset($title)}--><!--{$title}--><!--{/if}-->" name="search_title" class="txt"></td>
+          <td><a href="javascript:document.formSearch.submit();" class="btn-search tooltip" title="查询">&nbsp;</a>
+		      <!--{if isset($form_submit)}--><a href="<!--{$COM.ADMIN_URL}-->superman/bidding/lists?loghash=<!--{$COM.LOGHASH}-->" class="btns tooltip"><span>撤销检索</span></a><!--{/if}-->
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+    <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12"><div class="title"><h5>留言列表</h5><span class="arrow"></span></div></th>
+      </tr>
+    </tbody>
+  </table>
+  <form method="post" id="listfrom">
+    <input type="hidden" name="form_submit" value="ok" />
+    <table class="table tb-type2 nobdb">
+      <thead>
+        <tr class="thead">
+          <th>&nbsp;</th>
+          <th >联系人</th>
+          <th >公司名称</th>
+          <th >联系电话</th>
+          <th >电子邮箱</th>
+          <th >传真</th>
+          <th >留言时间</th>
+          <th class="align-center">操作</th>
+        </tr>
+      <tbody>
+	    <!--{if $infolist}-->
+	    <!--{foreach from=$infolist item=v}-->
+        <tr class="hover member">
+          <td class="w24"><input type="checkbox" name='del_id[]' value="<!--{$v.id}-->" class="checkitem"></td>
+          <td><!--{$v.contact}--></td>
+          <td><!--{$v.company}--></td>
+          <td><!--{$v.phone}--></td>
+          <td><!--{$v.email}--></td>
+          <td><!--{$v.fax}--></td>
+          <td class="w150 align-center"><!--{date('Y-m-d H:i:s', $v.add_time)}--></td>
+          <td class="w72 align-center"><a href="<!--{$COM.ADMIN_URL}-->content/message/message_view?loghash=<!--{$COM.LOGHASH}-->&id=<!--{$v.id}-->">查看</a> | <a href="javascript:del('<!--{$COM.ADMIN_URL}-->content/message/message_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]',<!--{$v.id}-->);">删除</a></td>
+        </tr>
+		<!--{/foreach}-->
+                      </tbody>
+      <tfoot class="tfoot">
+                <tr>
+          <td><input type="checkbox" class="checkall" id="checkallBottom"></td>
+          <td colspan="16"><label for="checkallBottom">全选</label>
+            &nbsp;&nbsp;<a href="JavaScript:void(0);" class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->content/message/message_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]');"><span>删除</span></a>
+            <!--{$infopage}-->
+			</td>
+        </tr>
+              </tfoot>
+       <!--{else}-->
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+		<!--{/if}-->
+    </table>
+  </form>
+</div>
+<!--{include "footer.html"}-->
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>会员组管理</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/lists?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/user_add?loghash=<!--{$COM.LOGHASH}-->" ><span>新增</span></a></li>
+        <li><a href="javascript:void" class="current"><span>收货地址</span></a></li>
+				<li><a href="<!--{$COM.ADMIN_URL}-->member/member/address_add?loghash=<!--{$COM.LOGHASH}-->&uid=<!--{$userid}-->" ><span>新增地址</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+ <form method="post" name="listfrom" id="listfrom" action='<!--{$COM.ADMIN_URL}-->member/member/group_list/'>
+ 	<input type="hidden" name="dosubmit" value="1" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="space"><th colspan="15">会员组列表</th> </tr>
+        <tr class="thead">
+          <th>ID</th>
+          <th>收货人</th>
+          <th>手机号码</th>
+          <th>收货地址</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!--{if $addresslist}-->
+      <!--{foreach from=$addresslist item=v}-->
+		<tr class="hover">
+          <td class="w48 sort">
+          	<input type="hidden" name="hdnid[]" value="<!--{$v.address_id}-->"  /><input type="text" value="<!--{$v.address_id}-->" name="listorder[]" id="listorder[]" class="txt-short" readonly>
+          	<div style='display:none;'><input type="hidden" value="<!--{$v.address_id}-->" name="id[]" id="id[]" /><input type="checkbox" name="ckbid[]" value="<!--{$v.address_id}-->" class="checkitem"><div>
+          </td>
+          <td><!--{$v.true_name}--></td>
+          <td><!--{$v.mob_phone}--></td>
+          <td><!--{$v.area_info}--> &nbsp;<!--{$v.address}--></td>
+          <td class="w120 align-center"><a href="<!--{$COM.ADMIN_URL}-->member/member/address_edit?loghash=<!--{$COM.LOGHASH}-->&uid=<!--{$userid}-->&addid=<!--{$v.address_id}-->">编辑</a> | <a href="javascript:del('<!--{$COM.ADMIN_URL}-->member/member/address_del/?loghash=<!--{$COM.LOGHASH}-->','ckbid[]',<!--{$v.address_id}-->);">删除</a></td>
+        </tr>
+      <!--{/foreach}-->
+	  </tbody>
+      <tfoot>
+      <tr class="tfoot">
+          <td></td>
+          <td colspan="16">   </td>
+        </tr>
+      </tfoot>
+      <!--{else}-->
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+		<!--{/if}-->
+    </table>
+    </form>
+</div>
+<script type="text/javascript">
+function add() {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'添加会员组',id:'adddialog',iframe:'<!--{$admin_url}-->member/member/group_add/?loghash=<!--{$COM.LOGHASH}-->',width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+function edit(name,id) {
+	window.top.art.dialog({id:'editdialog'}).close();
+	window.top.art.dialog({title:'修改会员组《'+name+'》',id:'editdialog',iframe:'<!--{$admin_url}-->member/member/group_edit/?loghash=<!--{$COM.LOGHASH}-->&id='+id,width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'editdialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'editdialog'}).close()});
+}
+</script>
+
+<!--{include "footer.html"}-->

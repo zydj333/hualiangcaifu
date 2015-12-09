@@ -1,0 +1,50 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>地址列表</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+        <li><a href="javascript:add();" ><span>新增地址</span></a></li>
+        <li><a href="<!--{$admin_url}-->setup/areas/lists?parent_id=<!--{$parent_idx}-->&loghash=<!--{$COM.LOGHASH}-->" ><span>返回上层</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  
+  <form method='post'>
+    <input type="hidden" name="form_submit" value="ok" />
+    <input type="hidden" name="submit_type" id="submit_type" value="" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="thead">
+          <th></th>
+          <th>排序</th>
+          <th>名称</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+<!--{foreach from=$lists item=v}-->
+<tr class="hover edit">
+		<td class="w36"><input type="checkbox" name="check_gc_id[]" value="<!--{$v.id}-->" class="checkitem"></td>
+		<td class="w48 sort"><span datatype="number" fieldid="1" fieldname="gc_sort" ectype="inline_edit" class="editable"><!--{$v.listorder}--></span></td>
+		<td><!--{$v.name}--></td>
+		<td class="w156"><a href="<!--{$admin_url}-->setup/areas/lists?parent_id=<!--{$v.id}-->&loghash=<!--{$COM.LOGHASH}-->">进子地址</a> | <a href="javascript:edit('<!--{$v.id}-->','<!--{$v.name}-->');">编辑</a> | <a href="javascript:if(confirm('删除该分类将会同时删除该分类的所有下级分类，您确定要删除吗'))window.location = '<!--{$admin_url}-->setup/areas/delete?id=<!--{$v.id}-->&loghash=<!--{$COM.LOGHASH}-->';">删除</a></td>
+</tr>
+<!--{/foreach}-->
+      </tfoot>
+          </table>
+  </form>
+</div>
+<script>
+function add() {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'添加地址',id:'adddialog',iframe:'<!--{$admin_url}-->setup/areas/add?parent_id=<!--{$parent_id}-->&loghash=<!--{$COM.LOGHASH}-->',width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+}
+function edit(id, name) {
+	window.top.art.dialog({id:'editdialog'}).close();
+	window.top.art.dialog({title:'修改地址《'+name+'》',id:'editdialog',iframe:'<!--{$admin_url}-->setup/areas/edit?id='+id+'&loghash=<!--{$COM.LOGHASH}-->',width:'800',height:'500'}, function(){var d = window.top.art.dialog({id:'editdialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'editdialog'}).close()});
+}
+</script>
+<!--{include "footer.html"}-->

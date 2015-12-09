@@ -1,0 +1,132 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>会员管理</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/lists/?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>会员充值</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="funds_form" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <input type="hidden" name="user_id" value="<!--{$user_info.user_id}-->" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+	    <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="user_id"> 经销商:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><!--{$user_info.username}--></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="money_time"> 入账时间:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="money_time" id="money_time" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation" for="money_total"> 入账金额:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="money_total" id="money_total" class="txt"></td>
+          <td class="vatop tips">金额仅适用数字</td>
+        </tr>
+				<tr>
+          <td colspan="2" class="required"><label class="validation" for="money_type">入账方式:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<select name="money_type" id="money_type" style="width:100px;">
+                <option value="0">请选择...</option>
+								<option value="1">电汇</option>
+								<option value="2">成兑</option>
+								<option value="3">现金</option>
+								<option value="4">公账转入</option>
+								<option value="5">其他方式</option>
+            </select>
+            <span id="money_type_extra"><input type="text" value="" name="money_type2" id="money_type2" class="txt"></span>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#funds_form").valid()){
+     $("#funds_form").submit();
+	}
+	});
+});
+
+//
+$(document).ready(function(){
+	$('#funds_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+						money_time : {
+                required : true,
+            },
+            money_total  : {
+                required : true,
+                number   : true
+            },
+            money_type : {
+                required : true
+            }
+        	},
+        messages : {
+						money_time  : {
+                required :  '请选择入账时间'
+            },
+            money_total  : {
+            		required :  '请输入入账金额',
+                number   : '金额仅能为数字'
+            },
+            money_type  : {
+                required : '请选择入账方式'
+            },
+            
+        }
+    });
+});
+
+//其他充值模式
+$('#money_type_extra').hide();
+$("#money_type").change(function(){
+	if($("#money_type").val() == 5){
+		$('#money_type_extra').show();
+	} else {
+		$('#money_type_extra').hide();
+	}
+});
+</script>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="<!--{$COM.JS_PATH}-->jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript">
+$(function(){
+    $('#money_time').datepicker({dateFormat: 'yy-mm-dd',timeFormat:'hh:mm:ss'});
+});
+</script>
+</body>
+</html>

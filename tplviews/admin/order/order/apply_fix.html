@@ -1,0 +1,71 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <form id="menuform" name="menuform" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="dosubmit" value="1"/>
+		<input type="hidden" id="rec_id" name="rec_id" value="<!--{$info['rec_id']}-->"/>
+		<input type="hidden" id="order_id" name="order_id" value="<!--{$info['order_id']}-->"/>
+		<input type="hidden" id="goods_id" name="goods_id" value="<!--{$info['goods_id']}-->"/>
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder"> <td colspan="2" class="required"><label for="parent_id">产品名称:</label></td></tr>
+        <tr class="noborder"><td class="vatop rowform"><!--{$info['goods_name']}--></td></tr>
+        <tr><td colspan="2" class="required"><label class="validation" for="fix_num">返修数量:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text"  name="fix_num" id="fix_num"  class="w100" class="txt-short"></td>
+          <td class="vatop tips">退货数量不能大于订单产品数量</td>
+        </tr>
+        <tr><td colspan="2" class="required"><label class="validation" for="fix_msg">返修说明:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea  name="fix_msg" id="fix_msg" rows="8" class="tarea" maxlength="150"></textarea></td>
+          <td class="vatop tips">请您如实填写申请原因及商品情况，字数在500字内。</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style='display:none'><td colspan="15" ><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div style='display:none'><input  type="submit" name="dosubmit" id="dosubmit" value=" 提交 "></div>
+  </form>
+</div>
+
+<script type="text/javascript">
+$(function(){
+     $('#message').validate({
+        errorLabelContainer: $('#warning'),
+    	submitHandler:function(form){
+    		ajaxpost('message', '', '', 'onerror') 
+    	},
+        invalidHandler: function(form, validator) {
+           var errors = validator.numberOfInvalids();
+           if(errors)
+           {
+               $('#warning').show();
+           }
+           else
+           {
+               $('#warning').hide();
+           }
+        },
+        rules : {
+                     fix_num : {
+                         required : true
+                     },
+                     fix_msg : {
+                         required : true
+                     }
+                  },
+        messages : {
+                     fix_num : {
+                         required : '请输入返修数量'
+                     },
+                     fix_msg : {
+                         required : '请输入返修原因'
+                     }
+        	}
+     })
+})
+</script> 
+<!--{include "footer.html"}-->

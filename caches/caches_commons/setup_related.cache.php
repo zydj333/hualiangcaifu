@@ -1,0 +1,1 @@
+a:3:{s:4:"time";i:1385483633;s:3:"ttl";i:315360000;s:4:"data";a:4:{s:13:"guest_comment";s:1:"1";s:20:"captcha_status_login";s:1:"1";s:23:"captcha_status_register";b:0;s:22:"captcha_status_goodsqa";b:0;}}

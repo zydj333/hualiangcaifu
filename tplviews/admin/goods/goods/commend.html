@@ -1,0 +1,38 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>商品批量操作</h3>
+      <ul class="tab-base">
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="post" name="form1">
+    <input type="hidden" value="ok" name="form_submit">
+    <input type="hidden" value="<!--{$goods_id}-->" name="del_id">
+    <table class="table tb-type2 nobdb">
+      <tbody>
+        <tr class="noborder">
+          <td class="required"><label>推荐到:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><ul class="nofloat w830" >
+          <!--{foreach from=$infolist item=v}-->
+                                          <li class="left w18pre h36">
+                <input type="radio" value="<!--{$v['recommend_id']}-->" name="recommend_id" id="recommend_id<!--{$v['recommend_id']}-->">
+                <label for="recommend_id<!--{$v['recommend_id']}-->"><!--{$v['recommend_name']}--></label>
+              </li>
+              <!--{/foreach}-->
+                                        </ul></td>
+        </tr>
+      <tfoot>
+        <tr class="tfoot">
+          <td ><a href="JavaScript:void(0);" class="btn" onclick="document.form1.submit()"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<!--{include "footer.html"}-->

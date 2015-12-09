@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>用户详情</title>
+        <link href="<!--{$COM.CSS_PATH}-->skin_0.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="page">
+            <form method="get" name="formSearch">
+                <table class="table tb-type2 nobdb">
+                    <tbody>
+                        <tr class="hover member">
+                            <td class="align-left" colspan="2">用户头像：<img src="/<!--{$detial.head_ico}-->" width="150" height="150" /></td>
+                            <td class="align-left"  colspan="2">用户名片：<img src="/<!--{$detial.businesscard}-->" width="150" height="150" /></td>
+                        </tr>
+                        <tr class="hover member">
+                            <td class="align-left">用户ID：<!--{$detial.user_id}--></td>
+                            <td class="align-left">用户帐号：<!--{$detial.username}--></td>
+                            <td class="align-left">用户分类：<!--{if $detial.iscate==1}-->普通用户<!--{else}-->其他<!--{/if}--></td>
+                            <td class="align-left">审核状态：<!--{if $detial.ischeck==0}-->待审核<!--{elseif $detial.ischeck==1}-->审核通过<!--{else}-->未通过<!--{/if}--></td>
+                        </tr>
+                        <tr class="hover member">
+                            <td class="align-left">手机：<!--{$detial.phone}--></td>
+                            <td class="align-left">电话：<!--{$detial.tel}--></td>
+                            <td class="align-left">推荐人：<!--{$detial.cardno_user}--></td>
+                            <td class="align-left">推荐人手机：<!--{$detial.cardno}--></td>
+                        </tr>
+                        <tr class="hover member">
+                            <td class="align-left">真实姓名：<!--{$detial.truename}--></td>
+                            <td class="align-left">性别：<!--{if $detial.sex==0}-->保密<!--{elseif $detial.sex==1}-->男<!--{elseif $detial.sex==2}-->女<!--{/if}--></td>
+                            <td class="align-left">生日：<!--{$detial.birthday}--></td>
+                            <td class="align-left">邮箱地址：<!--{$detial.email}--></td>
+                        </tr>
+                        <tr class="hover member">
+                            <td class="align-left">注册时间：<!--{date('Y-m-d H:i:s',$detial.register_time)}--></td>
+                            <td class="align-left">上次登录时间：<!--{date('Y-m-d H:i:s',$detial.last_login_time)}--></td>
+                            <td class="align-left">可用余额：<!--{$detial.available_predeposit}--></td>
+                            <td class="align-left">冻结金额：<!--{$detial.freeze_predeposit}--></td>
+                        </tr>
+                        <tr class="hover member">
+                            <td class="align-left">地区：<!--{$detial.area_name}--></td>
+                            <td class="align-left">地址：<!--{$detial.address}--></td>
+                            <td class="align-left">是否删除：<!--{if $detial.sts==0}-->否<!--{else}-->已删除<!--{/if}--></td>
+                            <td class="align-left">QQ号码：<!--{$detial.qq}--></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>   
+    </body>
+    <body>

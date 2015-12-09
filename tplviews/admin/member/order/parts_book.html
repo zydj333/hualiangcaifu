@@ -1,0 +1,112 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->orderbook.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>配件下单</h3>
+      <ul class="tab-base">
+        
+       
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="notice_form" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="dosubmit" value="ok" />
+
+    <table class="table tb-type2">
+      <tbody>
+        <tr>
+          <td colspan="2" class="required"><label class="validation" for="user_name">经销商列表: </label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<select name="user_name" id="user_name" style="width:260px;" size="10">
+          		<option value="">请选择经销商</option>
+          		<!--{foreach from=$member_list item=v}-->
+          		<option value="<!--{$v.user_id}-->"><!--{$v.username}--></option>
+							<!--{/foreach}-->
+          	</select>
+          	</td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">配件名称: </label></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><input  type="text" value="" name="add_parts" id="add_parts"  class="txt"></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label>收获地址: </label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<ul class="nofloat" id="user_address_html">
+              
+            </ul>
+          </td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">数量: </label></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><input  type="text" value="1" name="add_numbs" id="add_numbs" onblur="javascript:numchange2();"  class="txt"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation">备注说明: </label></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><input  type="text" value="" name="add_comment" id="add_comment"  class="txt"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#notice_form").valid()){
+        $("#notice_form").submit();
+	}
+
+	});
+});
+$(document).ready(function(){
+	$('#notice_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        rules : { 
+            user_name : {
+                required : true  
+            },
+            add_numbs :{
+            	required : true
+            }
+        },
+        messages : {
+            user_name :{
+                required     : '请选择经销商'
+            },
+            add_numbs :{
+            	required : '请输入下单数量'
+            }
+        },
+		submitHandler: function(form) {
+			form.submit();
+		}
+    });
+    
+});
+</script>
+
+<!--{include "footer.html"}-->
+</body>
+</html>

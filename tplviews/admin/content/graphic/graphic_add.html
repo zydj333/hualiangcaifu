@@ -1,0 +1,171 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>服务经理</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->content/graphic/lists/?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="graphic_form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+	    <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="pic_category"> 分类:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><select name="pic_category" id="pic_category">
+                <option value="">请选择...</option>
+                <!--{foreach from=$lc_list item=v}-->
+								<option value="<!--{$v.lc_id}-->"><!--{$v.lc_name}--></option>
+								<!--{/foreach}-->
+            </select></td>
+          <td class="vatop tips">请选择分类</td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="pic_title">姓名:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="pic_title" id="pic_title" class="txt"></td>
+          <td class="vatop tips">请填写姓名</td>
+        </tr>
+        <tr class="noborder" >
+          <td colspan="2" ><label for="pic_thumb">头像:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><span class="type-file-box">
+            <input type="file" name="pic_thumb" id="pic_thumb" class="type-file-file" size="30" >
+            </span></td>
+          <td class="vatop tips">请选择图片</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">手机号码:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="phone" id="phone" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">QQ号码:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="qq" id="qq" class="txt"></td>
+          <td class="vatop tips">数字越小越靠前</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">电子邮箱:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="" name="email" id="email" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder">排序:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="255" name="listorder" id="listorder" class="txt"></td>
+          <td class="vatop tips">数字越小越靠前</td>
+        </tr>
+				<tr>
+          <td colspan="2" class="required"><label for="pic_info">介绍:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea id="pic_info" name="pic_info" rows="6" class="tarea" ></textarea></td>
+          <td class="vatop tips">服务经理简单介绍</td>
+        </tr>
+				<tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="isshow"> 显示:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><ul>
+              <li>
+                <input type="radio" name="isshow" id="isshow0" value="0" />
+                <label for="s_dtype_text">是</label>
+              </li>
+              <li>
+                <input type="radio" name="isshow" id="isshow1" value="1"  checked="checked" />
+                <label for="s_dtype_image">否</label>
+              </li>
+            </ul></td>
+          <td class="vatop tips"></td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#graphic_form").valid()){
+     $("#graphic_form").submit();
+	}
+	});
+});
+
+//
+$(document).ready(function(){
+	$('#graphic_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+		    		pic_category : {
+                required : true
+            },
+						pic_title : {
+                required : true,
+								remote	: {
+                    url :'<!--{$COM.ADMIN_URL}-->content/graphic/ajax_public_check_graphic/?loghash=<!--{$COM.LOGHASH}-->&mt'+Math.random(),
+                    type:'get',
+                    data:{
+                    	pic_title : function(){
+                            return $('#pic_title').val();
+                        },
+                    }
+               }
+            },
+            listorder : {
+                number   : true
+            }
+        },
+        messages : {
+		    		pic_category : {
+                required : '分类不能为空'
+            },
+						pic_title  : {
+                required :  '信息标题不能为空',
+								remote	 :  '该信息标题已存在'
+            },
+            listorder  : {
+                number   : '排序仅能为数字'
+            }
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+$(function(){
+    var textButton="<input type='text' name='textfield' id='textfield1' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />"
+	$(textButton).insertBefore("#pic_thumb");
+	$("#pic_thumb").change(function(){
+	$("#textfield1").val($("#pic_thumb").val());
+});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title></title>
+<link href="<!--{$COM.CSS_PATH}-->reset.css" rel="stylesheet" type="text/css" />
+<link href="<!--{$COM.CSS_PATH}-->zh-cn-system.css" rel="stylesheet" type="text/css" />
+<link href="<!--{$COM.CSS_PATH}-->dialog.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<!--{$CSS_PATH}-->style/zh-cn-styles1.css" title="styles1" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="<!--{$COM.CSS_PATH}-->style/zh-cn-styles2.css" title="styles2" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="<!--{$COM.CSS_PATH}-->style/zh-cn-styles3.css" title="styles3" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="<!--{$COM.CSS_PATH}-->style/zh-cn-styles4.css" title="styles4" media="screen" />
+<script language="javascript" type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="<!--{$COM.JS_PATH}-->styleswitch.js"></script>
+<script language="javascript" type="text/javascript" src="<!--{$COM.JS_PATH}-->dialog.js"></script>
+<script type="text/javascript">
+	window.focus();
+	var pc_hash = '<!--{$COM.LOGHASH}-->';
+			window.onload = function(){
+		var html_a = document.getElementsByTagName('a');
+		var num = html_a.length;
+		for(var i=0;i<num;i++) {
+			var href = html_a[i].href;
+			if(href && href.indexOf('javascript:') == -1) {
+				if(href.indexOf('?') != -1) {
+					html_a[i].href = href+'&loghash='+loghash;
+				} else {
+					html_a[i].href = href+'?loghash='+loghash;
+				}
+			}
+		}
+
+		var html_form = document.forms;
+		var num = html_form.length;
+		for(var i=0;i<num;i++) {
+			var newNode = document.createElement("input");
+			newNode.name = 'loghash';
+			newNode.type = 'hidden';
+			newNode.value = loghash;
+			html_form[i].appendChild(newNode);
+		}
+	}
+</script>
+</head>
+<body>
+<style type="text/css">
+html{_overflow-y:scroll}
+</style>
+<div class="pad-10">
+<!--{foreach name=childs from=$list item=v}-->
+<!--{if $smarty.foreach.childs.first eq 1 and $v.floor eq 0}--><div class="map-menu lf"><ul><!--{/if}-->
+<!--{if $smarty.foreach.childs.first neq 1 and $smarty.foreach.childs.last neq 1 and $v.floor eq 0 and $v.i mod 2 eq 1}--></ul></div><div class="map-menu lf"><ul><!--{/if}-->
+<!--{if $v.floor eq 0}--><li class="title"><!--{$v.name}--></li>
+<!--{elseif $v.floor eq 1}--><li class="title2"><!--{$v.name}--></li>
+<!--{elseif $v.floor eq 2}--><li><a href="javascript:go('<!--{$COM.ADMIN_URL}--><!--{$v.m}-->/<!--{$v.c}-->/<!--{$v.a}-->/?loghash=<!--{$COM.LOGHASH}-->&<!--{$v.id}-->')"><!--{$v.name}--></a></li><!--{/if}-->
+<!--{if $smarty.foreach.childs.last eq 1 }--></ul></div><!--{/if}-->
+<!--{/foreach}-->
+</div>
+<script type="text/javascript">
+<!--
+ function go(url) {
+	 window.top.document.getElementById('rightMain').src=url;
+	 window.top.document.getElementById('display_center_id').style.display='none';
+	 window.top.art.dialog({id:'map'}).close();
+}
+//-->
+</script>
+</body>
+</html>

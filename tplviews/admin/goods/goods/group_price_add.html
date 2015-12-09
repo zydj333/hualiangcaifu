@@ -1,0 +1,49 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->dialog.js" id="dialog_js" charset="utf-8"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->iframeTools.source.js" charset="utf-8"></script>
+
+<div class="page">
+  <form id="groupPriceForm" name="groupPriceForm" method="post" enctype="multipart/form-data">
+    
+    <table class="table tb-type2">
+    	<thead>
+			<tr>
+				<th>会员组名称</th>
+				<th>商品价格</th>
+				<th>默认价格</th>
+				<th>会员组折扣率</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--{foreach from=$user_group_list item=v}-->
+				<tr class='td_c'>
+					<td><!--{$v.groupname}--></td>
+					<td><input type="text" name="groupPrice<!--{$v.id}-->"/></td>
+					<td>￥<!--{$v.discount/100*$sell_price}--></td>
+					<td><!--{$v.discount}-->%</td>
+				</tr>
+			<!--{/foreach}-->
+			</tbody>
+    </table>
+    <div style='display:none'><input  type="submit" name="dosubmit" id="dosubmit" value=" 提交 "></div>
+  </form>
+</div>
+<script>
+
+</script>
+<script type='text/javascript'>
+$(function(){
+	var groupPrice = art.dialog.data('groupPrice');
+	if(groupPrice)
+	{
+		var groupPriceObject = $.parseJSON(groupPrice);
+		for(var groupId in groupPriceObject)
+		{
+			$('input[name="groupPrice'+groupId+'"]').val(groupPriceObject[groupId]);
+		}
+	}
+	art.dialog.removeData('groupPrice');
+});
+</script>
+</body>
+</html>

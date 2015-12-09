@@ -1,0 +1,44 @@
+<!--{if isset($topmenulist) }-->
+<div class="fixed-bar">
+<div class="item-title">
+  <h3><!--{if isset($topmenulist[0])}--><!--{$topmenulist[0]['name']}--><!--{/if}--></h3>
+  <ul class="tab-base">
+<!--{foreach from=$topmenulist key=k item=v}-->
+<!--{if $k gt 0 and $v.ismenu==1}-->
+<!--{if $v.c==$COM.C && $v.a==$COM.A }-->
+<!--{if empty($v.data)}-->
+<li><a href="JavaScript:void(0);" class="current"><span><!--{$v.name}--></span></a></li>
+<!--{else}-->
+	<!--{if isset($top_op) && $top_op==$v.data}-->
+<li><a href="JavaScript:void(0);" class="current"><span><!--{$v.name}--></span></a></li>
+	<!--{else}-->
+<li><a href="<!--{$COM.ADMIN_URL}--><!--{$v.m}-->/<!--{$v.c}-->/<!--{$v.a}-->?loghash=<!--{$COM.LOGHASH}-->&<!--{$v.data}--><!--{if isset($top_parm)}-->&<!--{$top_parm}--><!--{/if}-->" ><span><!--{$v.name}--></span></a></li>
+	<!--{/if}-->
+<!--{/if}-->
+<!--{else}-->
+<li><a href="<!--{$COM.ADMIN_URL}--><!--{$v.m}-->/<!--{$v.c}-->/<!--{$v.a}-->?loghash=<!--{$COM.LOGHASH}-->&<!--{$v.data}--><!--{if isset($top_parm)}-->&<!--{$top_parm}--><!--{/if}-->" ><span><!--{$v.name}--></span></a></li>
+<!--{/if}-->
+<!--{/if}-->
+<!--{/foreach}-->
+  </ul>
+</div>
+</div>
+<!--{/if}-->
+<!--{if false}--><!-------使用说明-------
+$k>0 表示第一行是模块描述，比如“团购模块”
+
+$v.ismenu==1表示菜单
+
+$top_op:帮助选中
+举例:当参数菜单配置为
+菜单1：admin.php/business/groupbuy/area_manage?op=list
+菜单2：admin.php/business/groupbuy/area_manage?op=save
+$top_op=op=list  则菜单1选中
+
+$top_parm:额外参数
+举例：给链接添加额外参数
+$top_parm:temp_id=10&group_id=1
+原菜单：admin.php/business/groupbuy/area_manage?op=list
+添加后菜单：admin.php/business/groupbuy/area_manage?op=list&temp_id=10&group_id=1
+----------------------->
+<!--{/if}-->

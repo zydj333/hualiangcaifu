@@ -1,0 +1,14 @@
+<?php
+$config['dir']='uploadfile';
+$config['thumb']=array(
+	'is_on'=>true,
+	'width'=>200,
+	'height'=>200,
+	'thumb_marker'=>'_thumb',
+);
+$config['thumbx']=array(
+	'width'=>400,
+	'height'=>400,
+	'thumb_marker'=>'_thumbx',
+);
+?>

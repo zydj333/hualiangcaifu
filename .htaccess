@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.*)$ /index.php/$1 [QSA,PT,L]
+
+RewriteRule ^game-(.*)\.html$  index.php?c=game&a=show&id=$1 [L]
+RewriteRule ^cate-(.*)-(.*)\.html$  index.php?c=game&a=cate&id=$1&cid=$2 [L]
+RewriteRule ^server-(.*)\.html$  index.php?c=game&a=server&sid=$1 [L]
+RewriteRule ^buy.html$  index.php?c=game&a=buy [L]
+RewriteRule ^aboutus.html$  index.php?c=intro&a=aboutus [L]
+RewriteRule ^contactus.html$  index.php?c=intro&a=contactus [L]
+RewriteRule ^payment.html$  index.php?c=intro&a=payment [L]
+RewriteRule ^feedback.html$  index.php?c=intro&a=feedback [L]
+RewriteRule ^aboutvip.html$  index.php?c=intro&a=aboutvip [L]
+RewriteRule ^faq.html$  index.php?c=intro&a=faq [L]
+RewriteRule ^news-(.*)\.html$  index.php?c=news&a=show&id=$1 [L]
+RewriteRule ^news-list-(.*)-(.*)\.html$  index.php?c=news&a=lists&cid=$1&p=$2 [L]
+RewriteRule ^login.html$  index.php?c=index&a=login [L]
+RewriteRule ^register.html$  index.php?c=index&a=register [L]
+#RewriteRule ^predeposit/(.*)\.php$  index.php?c=predeposit&a=$1 [L]
+#RewriteRule ^payment/notify_url.php$  index.php?c=payment&a=notify_url [L]
+
+</IfModule>

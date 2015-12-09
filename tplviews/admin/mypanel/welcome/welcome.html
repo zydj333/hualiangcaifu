@@ -1,0 +1,103 @@
+<!--{include "header.html"}-->
+<style>
+span {color:#F00}
+</style>
+<div class="page">
+  <div class="item-title">
+    <h3>您好,<span><!--{$data.admin_name}--></span>,欢迎使用<span>华良财富后台管理系统</span>.  您上次登录的时间是<span><!--{date('Y-m-d H:i:s', $data.last_login_time)}--></span><!--{if $data.admin_role_id == 6}-->&nbsp;&nbsp;管理区域：<!--{$data.areaids_name}--><!--{/if}--></h3>
+  </div>
+  <table class="table tb-type2">
+    <thead class="thead">
+      <tr>
+        <th colspan="10">
+        </th>
+      </tr>
+      <tr class="space">
+        <th colspan="10">一周动态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="w12"></td>
+        <td class="w108"><strong>新增会员数:</strong></td>
+        <td class="w25pre"><span><!--{$data.user_num}--></span></td>
+        <td class="w120"><strong>新增订单数:</strong></td>
+        <td><span><!--{$data.order_num}--></span></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="tfoot">
+        <td colspan="10"></td>
+      </tr>
+    </tfoot>
+  </table>
+  <table class="table tb-type2">
+    <thead class="thead">
+      <tr class="space">
+        <th colspan="10">统计信息</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="w12"></td>
+        <td class="w108"><strong>会员总数:</strong></td>
+        <td class="w25pre"><span><!--{$data.user}--></span></td>
+        <td class="w120"><strong>产品总数:</strong></td>
+        <td><span><!--{$data.goods}--></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>订单总数:</strong></td>
+        <td><span><!--{$data.order}--></span></td>
+        <td><strong>留言总数:</strong></td>
+        <td><span><!--{$data.message}--></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>订单总金额:</strong></td>
+        <td><span><!--{$data.order_sum}--></span></td>
+        <td><strong></strong></td>
+        <td><span></span></td>
+      </tr>
+    </tbody> <tfoot>
+      <tr class="tfoot">
+        <td colspan="10"></td>
+      </tr>
+    </tfoot>
+  </table>
+  <table class="table tb-type2">
+    <thead class="thead">
+      <tr class="space">
+        <th colspan="10">系统信息</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="w12"></td>
+        <td class="w108"><strong>服务器操作系统:</strong></td>
+        <td class="w25pre"><span><!--{$data.system_os}--></span></td>
+        <td class="w120"><strong>WEB 服务器:</strong></td>
+        <td><span><!--{$data.system_env}--></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>PHP 版本:</strong></td>
+        <td><span><!--{$data.php_system}--></span></td>
+        <td><strong>MYSQL 版本:</strong></td>
+        <td><span><!--{$data.mysql_system}--></span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><strong>系统版本:</strong></td>
+        <td><span>CH-V3.2</span></td>
+        <td><strong>安装时间:</strong></td>
+        <td><span><!--{date('Y-m-d H:i:s',$data.inst_time)}--></span></td>
+      </tr>
+    </tbody> <tfoot>
+      <tr class="tfoot">
+        <td colspan="10"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<!--{include "footer.html"}-->

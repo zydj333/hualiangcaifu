@@ -1,0 +1,84 @@
+<!--{include "header.html"}-->
+
+<div class="page">
+  <form id="infoform" name="infoform" method="post" onsubmit='getCheck();'>
+     <input type="hidden" name="dosubmit" value="1" />
+     <input type="hidden" name="info[id]" value="<!--{$info.id}-->" />
+    <table class="table tb-type2" style='width:40%;float:left'>
+      <tbody>
+        <tr><td colspan="2" class="required"><label for="info[rolename]">角色名称:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><!--{$info.rolename}--></td>
+          <td class="vatop tips"></td>
+        </tr>
+          <tr>
+          <td colspan="2" class="required"><label for="statistics_code">角色描述:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><!--{$info.description}--></td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr  style='display:none;'class="tfoot"><td colspan="15" ><a href="JavaScript:void(0);"  class="btn"  id="submitBtn"><span>提交</span></a></td></tr>
+      </tfoot>
+    </table>
+     <table style='width:60%;float:right'>
+     <tr>
+     	<td ><!--{$treescript}-->
+<SCRIPT type="text/javascript">
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+		var zNodes =[
+		<!--{foreach name=childs from=$menulist item=v}-->
+{ id:'<!--{$v.id}-->', pId:<!--{$v.parent_id}-->,name:"<!--{$v.name}-->"<!--{if $v.id|in_array:$rolelist }-->,checked:true, open:true<!--{/if}-->}<!--{if $smarty.foreach.childs.last neq "1"}-->,<!--{/if}-->
+		<!--{/foreach}-->
+		];
+		var code;
+
+		function setCheck() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			type ={ "Y" : "ps", "N" : "ps" };
+			zTree.setting.check.chkboxType = type;
+		}
+		function getCheck() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var treeNode=zTree.getCheckedNodes();
+			var ids='';
+			for (x in treeNode) {
+				ids=ids+treeNode[x]["id"]+",";
+			}
+			$('#hdnids').val(ids);
+		}
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			setCheck();
+		});
+	</SCRIPT>
+<style type="text/css">
+div.content_wrap {width: 100%;height:450px;padding-top:20px;}
+div.content_wrap div.left{float: left;width: 300px;}
+div.zTreeDemoBackground {border: solid 1px #329ED1;height:380px;text-align:left;overflow: scroll; }
+</style>
+<input type='hidden' name='info[hdnids]' id='hdnids' value='' />
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+</div>
+     	</td>
+     </tr>
+     </table>
+    <input style='display:none;' type="submit" name="dosubmit" id="dosubmit" value=" 提交 " >
+  </form>
+</div>
+
+<!--{include "footer.html"}-->

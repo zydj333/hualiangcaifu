@@ -1,0 +1,72 @@
+<!--{include "header.html"}-->
+<div class="page">
+ 
+  <form id="infoform" name="infoform" method="post">
+     <input type="hidden" name="dosubmit" value="1" />
+     <input type="hidden" name="info[id]" id="info[id]" value="<!--{$info.id}-->" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr><td colspan="2" class="required"><label class="validation" for="info[rolename]">角色名称:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.rolename}-->" name="info[rolename]" id="info[rolename]" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="statistics_code">角色描述:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea  name="info[description]" id="info[description]" rows="6" class="tarea"><!--{$info.description}--></textarea></td>
+          <td class="vatop tips">角色使用范围以及基本信息的备注</td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr  style='display:none;'class="tfoot"><td colspan="15" ><a href="JavaScript:void(0);"  class="btn"  id="submitBtn"><span>提交</span></a></td></tr>
+      </tfoot>
+    </table>
+    <input style='display:none;' type="submit" name="dosubmit" id="dosubmit" value=" 提交 ">
+  </form>
+</div>
+<script>
+$(document).ready(function(){
+	//按钮先执行验证再提交表单
+	$("#submitBtn").click(function(){
+	    if($("#infoform").valid()){
+	     $("#infoform").submit();
+		}
+	});
+
+	$('#infoform').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onfocusout : false,
+        onkeyup    : false,
+        rules : {
+       		'info[site_id]' : {
+                required : true,
+            },
+            'info[rolename]' : {
+                required : true,
+            }
+        },
+        messages : {
+        	'info[site_id]'  : {
+                required : '请选择所属站点',
+            },
+            'info[rolename]'  : {
+                required : '请输入角色名称',
+            }
+        }
+    });
+
+
+});
+
+
+
+</script>
+<!--{include "footer.html"}-->

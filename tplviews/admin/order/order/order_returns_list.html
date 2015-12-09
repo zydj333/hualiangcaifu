@@ -1,0 +1,124 @@
+<!--{include "header.html"}-->
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>退货单</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+		
+      </ul>
+    </div>
+  </div>
+  
+  <div class="fixed-empty"></div>
+  <form method="post" action="<!--{$COM.ADMIN_URL}-->order/order/order_returns_list?loghash=<!--{$COM.LOGHASH}-->" name="formSearch">
+      <input type="hidden" name="loghash" value="<!--{$COM.LOGHASH}-->" />
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+          <th><label>退货状态</label></th>
+          <td colspan="4">
+          <select name="status" class="querySelect">
+             <!--{foreach from=$arr key=k item=i}-->
+             <option value="<!--{$k}-->" <!--{if isset($sel.status) && $sel.status==$k }-->selected<!--{/if}--> ><!--{$i}--></option>
+         <!--{/foreach}-->
+            </select>
+           
+           </td>
+        
+          <th><label for="add_time_from">操作时间</label></th>
+         <td><input class="txt date" type="text" value="<!--{if isset($sel.add_time_st)}--><!--{$sel.add_time_st}--><!--{/if}-->" id="add_time_st" name="add_time_st">
+            <label for="add_time_to">~</label>
+            <input class="txt date" type="text" value="<!--{if isset($sel.add_time_en)}--><!--{$sel.add_time_en}--><!--{/if}-->" id="add_time_en" name="add_time_en"/>
+	     </td>
+		  <td>
+            <input type="hidden" name="dosubmit" value="1">
+            <a href="javascript:document.formSearch.submit();" class="btn-search tooltip" title="查询">&nbsp;</a>
+			<!--{if isset($dosubmit)}--><a class="btns tooltip" href="<!--{$COM.ADMIN_URL}-->order/order/order_returns_list?loghash=<!--{$COM.LOGHASH}-->" title=""><span> 撤销检索</span></a>
+			<!--{/if}-->
+            </td>
+                   
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <form id="listfrom" method="post">
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12"><div class="title"><h5>操作提示</h5><span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+       <td class="tfoot">
+     <ul>
+       <li>
+        点击查看操作将显示订单（包括订单物品）的详细信息
+       </li>
+     </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table tb-type2 nobdb">
+    <thead>
+      <tr class="thead">
+        <th>选择</th>
+        <th class="align-center">退货编号</th>
+        <th class="align-center">商品名称</th>
+        <th class="align-center">商品数量</th>
+		<th class="align-center">退货数量</th>
+		<th class="align-center">提交时间</th>
+        <th class="align-center">处理时间</th>
+        <th class="align-center">退货进度</th>
+        <th class="align-center">编辑</th>
+      </tr>
+    </thead>
+    <tbody>
+<!--{if !empty($refund_info)}-->
+<!--{foreach from=$refund_info item=v}-->
+<!--{if $v.sts==0}-->
+       <tr class="hover">
+        <td><input class="checkitem" type="checkbox" value="<!--{$v.returns_id}-->" name="del_id[]"></input></td>
+        <td class="align-center"><!--{$v.return_sn}--></td>
+        <td class="align-center"><!--{$v.goods_name}--></td>
+		<td class="align-center"><!--{$v.goods_num}--></td>
+		<td class="align-center"><!--{$v.return_goodsnum}--></td>
+        <td class="align-center"><!--{date('Y-m-d H:i:s',$v.add_time)}--></td>
+        <td class="align-center"><!--{if isset($v.update_time)}--><!--{date('Y-m-d H:i:s',$v.update_time)}--><!--{else}-->-<!--{/if}--></a></td>
+        <td class="align-center"><!--{$v.state_name}--></td>
+        <td class="align-center">
+        <a href="<!--{$COM.ADMIN_URL}-->order/order/order_returns_look?loghash=<!--{$COM.LOGHASH}-->&return_sn=<!--{$v.return_sn}-->">查看</a>
+        </td>
+      </tr>
+<!--{/if}-->
+<!--{/foreach}-->
+<!--{else}-->
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+<!--{/if}-->
+    </tbody>
+    <tfoot>
+       <tr class="tfoot">
+        <td colspan="14" id="dataFuncs">
+		   <input id="checkallBottom" class="checkall" type="checkbox" ></input>
+           <label for="checkallBottom" class="btn">全选</label> 
+           <a class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->orders/order/returns_del?loghash=<!--{$COM.LOGHASH}-->&act=1','del_id[]');" href="JavaScript:void(0);"><span>删除</span></a>
+		</td>
+      </tr>
+    </tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="<!--{$COM.JS_PATH}-->jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="<!--{$COM.JS_PATH}-->jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript">
+$(function(){
+    $('#add_time_st').datepicker({dateFormat: 'yy-mm-dd'});
+    $('#add_time_en').datepicker({dateFormat: 'yy-mm-dd'});
+	
+});
+</script>
+<!--{include "footer.html"}-->

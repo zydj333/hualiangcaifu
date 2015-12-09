@@ -1,0 +1,65 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <form id="menuform" name="menuform" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="dosubmit" value="1"/>
+	<input type="hidden" id="consult_id" name="consult_id" value="<!--{$info['consult_id']}-->"/>
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder"> <td colspan="2" class="required"><label for="parent_id">咨询的内容:</label></td></tr>
+        <tr class="noborder">
+	        <td class="vatop rowform">
+			 <!--{$info['consult_content']}-->
+			</td>
+        </tr>
+        <tr><td colspan="2" class="required"><label class="validation" for="info[name]">回复咨询:</label></td></tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea  name="content" rows="3" class="w300" maxlength="150"><!--{$info['consult_reply']}--></textarea>
+      	  </td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style='display:none'><td colspan="15" ><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div style='display:none'><input  type="submit" name="dosubmit" id="dosubmit" value=" 提交 "></div>
+  </form>
+</div>
+
+<script type="text/javascript">
+$(function(){
+     $('#message').validate({
+        errorLabelContainer: $('#warning'),
+    	submitHandler:function(form){
+    		ajaxpost('message', '', '', 'onerror') 
+    	},
+        invalidHandler: function(form, validator) {
+           var errors = validator.numberOfInvalids();
+           if(errors)
+           {
+               $('#warning').show();
+           }
+           else
+           {
+               $('#warning').hide();
+           }
+        },
+        rules : {
+                     content : {
+                         required : true,
+                         maxlength: 200,
+                     }
+                  },
+        messages : {
+                     content : {
+                         required : '请输入内容',
+                         maxlength: '内容不得超过255字节'
+                        }
+                     }
+         })
+})
+</script> 
+<!--{include "footer.html"}-->

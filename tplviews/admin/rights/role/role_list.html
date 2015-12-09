@@ -1,0 +1,73 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>角色管理</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+        <li><a href="javascript:add();" ><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" name="serachfrom" action='<!--{$COM.ADMIN_URL}-->rights/role/role_list/'>
+    <input type="hidden" value="<!--{$COM.LOGHASH}-->" name="loghash">
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+          <th><label for="search_nav_title">角色名称</label></th>
+          <td><input type="text" value="<!--{$sel.rolename}-->" name="rolename" id="rolename" class="txt"></td>
+          <td><a href="javascript:document.serachfrom.submit();" class="btn-search tooltip" title="查询">&nbsp;</a></td>
+        </tr>
+      </tbody>
+    </table>
+ </form>
+ <form method="post" name="listfrom" id="listfrom" action='<!--{$COM.ADMIN_URL}-->rights/role/role_list/'>
+ 	<input type="hidden" name="dosubmit" value="1" />
+    <table class="table tb-type2">
+      <thead>
+        <tr class="space"><th colspan="15">角色管理列表</th> </tr>
+        <tr class="thead">
+          <th><input type="checkbox" class="checkall" id="checkallBottom"></th>
+          <th>角色名称</th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!--{foreach from=$infolist item=v}-->
+		<tr class="hover">
+          <td class="w24"><!--{if $v.id neq 1}--><input type="checkbox" name="ckbid[]" value="<!--{$v.id}-->" class="checkitem"><!--{/if}--></td>
+          <td><!--{$v.rolename}--></td>
+          <td class="w200 align-center"><a href="javascript:setrole('<!--{$v.rolename}-->',<!--{$v.id}-->);">权限菜单</a> | <a href="javascript:edit('<!--{$v.rolename}-->',<!--{$v.id}-->);">编辑</a> | <!--{if $v.id neq 1}--><a href="javascript:del('<!--{$COM.ADMIN_URL}-->system/role/role_del/?loghash=<!--{$COM.LOGHASH}-->','ckbid[]',<!--{$v.id}-->);">删除</a><!--{else}--><a href="javascript:void(0);"  disabled="disabled">删除</a><!--{/if}--></td>
+        </tr>
+      <!--{/foreach}-->
+	  </tbody>
+      <tfoot>
+      <tr class="tfoot">
+          <td><input type="checkbox" class="checkall" id="checkallBottom"></td>
+          <td colspan="16"><label for="checkallBottom">全选</label>
+            &nbsp;&nbsp;<a href="JavaScript:void(0);" class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->rights/role/role_del/?loghash=<!--{$COM.LOGHASH}-->','ckbid[]');"><span>删除</span></a>
+            <!--{$infopage}-->
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    </form>
+</div>
+<script type="text/javascript">
+function add() {
+	window.top.art.dialog({id:'adddialog'}).close();
+	window.top.art.dialog({title:'添加角色',id:'adddialog',iframe:'<!--{$admin_url}-->rights/role/role_add/?loghash=<!--{$COM.LOGHASH}-->',width:'500',height:'300'}, function(){var d = window.top.art.dialog({id:'adddialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'adddialog'}).close()});
+
+}
+function edit(name,id) {
+	window.top.art.dialog({id:'editdialog'}).close();
+	window.top.art.dialog({title:'修改角色《'+name+'》',id:'editdialog',iframe:'<!--{$admin_url}-->rights/role/role_edit/?loghash=<!--{$COM.LOGHASH}-->&id='+id,width:'500',height:'300'}, function(){var d = window.top.art.dialog({id:'editdialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'editdialog'}).close()});
+}
+function setrole(name,id) {
+	window.top.art.dialog({id:'editdialog'}).close();
+	window.top.art.dialog({title:'设置角色《'+name+'》的菜单权限',id:'editdialog',iframe:'<!--{$admin_url}-->rights/role/role_menu/?loghash=<!--{$COM.LOGHASH}-->&id='+id,width:'600',height:'490'}, function(){var d = window.top.art.dialog({id:'editdialog'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'editdialog'}).close()});
+}
+</script>
+
+<!--{include "footer.html"}-->

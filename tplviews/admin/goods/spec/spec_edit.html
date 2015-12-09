@@ -1,0 +1,215 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>规格管理</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/spec/spec_list/?loghash=<!--{$COM.LOGHASH}-->"><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->goods/spec/spec_add/?loghash=<!--{$COM.LOGHASH}-->"><span>新增</span></a></li>
+        <li><a class="current" href="JavaScript:void(0);"><span>编辑</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="spec_form" method="post" enctype="multipart/form-data" action="<!--{$COM.ADMIN_URL}-->goods/spec/spec_edit/?loghash=<!--{$COM.LOGHASH}-->">
+	<input type="hidden" name="dosubmit" value="1" />
+    <input type="hidden" name="sp_id" id="sp_id" value="<!--{$spec_info.sp_id}-->" />
+	<input type="hidden" name="sp_value" value="<!--{$spec_info.sp_value}-->" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td class="required" colspan="2"><label class="validation" for="sp_name">规格名称</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" class="txt" name="sp_name" id="sp_name" value="<!--{$spec_info.sp_name}-->" /></td>
+          <td class="vatop tips">请填写常用的商品规格的名称；例如：颜色；尺寸等。</td>
+        </tr>
+        <tr>
+          <td class="required" colspan="2"><label class="validation" for="sp_listorder">排序</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" class="txt" name="sp_listorder" id="sp_listorder" value="<!--{$spec_info.listorder}-->" /></td>
+          <td class="vatop tips">请填写自然数。规格列表将会根据排序进行由小到大排列显示。</td>
+        </tr>
+        <tr>
+          <td class="required" colspan="2"><label>规格类型</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><ul>
+		      <!--{if $spec_info.sp_format == 'text'}-->
+              <li>
+                <input type="radio" name="sp_format" id="sp_format_text" value="text" checked="checked" />
+                <label for="sp_format_text">文字</label>
+              </li>
+			  <!--{elseif $spec_info.sp_format == 'image'}-->
+              <li>
+                <input type="radio" name="sp_format" id="sp_format_image" value="image" checked="checked" />
+                <label for="sp_format_image">图片</label>
+              </li>
+			  <!--{/if}-->
+            </ul></td>
+          <td class="vatop tips">图片类型的规格值用于直观表现某些特殊规格类型，例如颜色规格，可用对应的色彩图片来表现其各种颜色值。</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table tb-type2 ">
+      <thead class="thead">
+        <tr class="space"><th colspan="15">编辑规格值 </th></tr>
+		<tr></tr>
+        <tr class="noborder">
+          <th>排序</th>
+          <th>规格值</th>
+          <th class="image_display">规格图片</th>
+          <th></th>
+          <th class="align-center">操作</th>
+        </tr>
+      </thead>
+      <tbody id="tr_model">
+        <tr></tr>
+		<!--{foreach from=$spec_value_list item=v key=key}-->
+		<tr class="hover edit">
+		  <td class="w48 sort"><input type="text" name="s_value[<!--{$key}-->][key][sort]" value="<!--{$v['listorder']}-->" /></td>
+		  <td class="name w270"><input type="text" name="s_value[<!--{$key}-->][key][name]" value="<!--{$v['sp_value_name']}-->" /></td>
+		  <!--{if $spec_info.sp_format == 'image'}-->
+		  <td class="image_display vatop rowform w300">
+		  <span class="type-file-show"><img class="low_source" width="16" height="16" src="<!--{$COM.BASE_URL}--><!--{$v['sp_value_image']}-->"></span><span class="type-file-box">
+			<input type="text" name="textfield[<!--{$key}-->]" class="type-file-text" value="<!--{$v['sp_value_image']}-->" /><input type="button" name="button" value="" class="type-file-button" />
+			<input class="type-file-file" type="file" title="" ectype="change_default_goods_image" hidefocus="true" size="30" name="s_value_image_<!--{$key}-->"></span>
+		  </td>
+		  <!--{else}-->
+		  <td class="w300 vatop rowform image_display">&nbsp;</td>
+		  <!--{/if}-->
+		  <td></td>
+		  <td class="w150 align-center"><a onclick="remove_tr($(this));" href="JavaScript:void(0);">移除</a></td>
+        </tr>
+		<!--{/foreach}-->
+      </tbody>
+      <tbody>
+        <tr>
+          <td colspan="15"><a class="btn-add marginleft" id="add_type" href="JavaScript:void(0);"> <span>添加一个规格值</span> </a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a id="submitBtn" class="btn" href="JavaScript:void(0);"><span>提交</span> </a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script type="text/javascript">
+$(function(){
+    var i='<!--{count($spec_value_list)}-->';
+	var tr_model = '<tr class="hover edit">'+
+		'<td class="w48 sort"><input type="text" name="s_value[ikey][key][sort]" value="99" /></td>'+
+		'<td class="w270 name"><input type="text" name="s_value[ikey][key][name]" value="" /></td>'+
+		<!--{if $spec_info.sp_format == 'image'}-->
+		'<td class="w300 image_display vatop rowform">'+
+			'<span class="type-file-show">'+
+				'<img class="low_source" width="16" height="16" src="<!--{$IMG_PATH}-->transparent.gif" />'+
+			'</span>'+
+			'<span class="type-file-box">'+
+				'<input type="text" name="textfield[ikey]" class="type-file-text" value="" /><input type="button" name="button" value="" class="type-file-button" />'+
+				'<input class="type-file-file" type="file" title="" ectype="change_default_goods_image" hidefocus="true" size="30" name="s_value_image_ikey">'+
+			'</span>'+
+		'</td>'+
+		<!--{else}-->
+		'<td class="w300 vatop rowform image_display">&nbsp;</td>'+
+		<!--{/if}-->
+		'<td></td><td class="w150 align-center"><a onclick="remove_tr($(this));" href="JavaScript:void(0);">移除</a></td>'+
+	'</tr>';
+	$("#add_type").click(function(){
+		$('#tr_model > tr:last').after(tr_model.replace(/ikey/g,i));
+		if($('.image_display').is(":hidden")){
+			$('.image_display').hide();
+		}
+		$.getScript("<!--{$JS_PATH}-->admincp.js");
+		i++;
+	});
+
+	//规格图片显示与隐藏操作
+	$('#sp_format_image').click(function(){
+		$('.image_display').show();
+	});
+	$('#sp_format_text').click(function(){
+		$('.image_display').hide();
+	});
+
+	//表单验证
+    $('#spec_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onkeyup    : false,
+        rules : {
+        	sp_name: {
+        		required : true,
+                maxlength: 10,
+                minlength: 1,
+				remote	: {
+                    url :'<!--{$COM.ADMIN_URL}-->goods/spec/ajax_spec_name/?loghash=<!--{$COM.LOGHASH}-->&mt'+Math.random(),
+                    type:'get',
+                    data:{
+                    	sp_name : function(){
+                            return $('#sp_name').val();
+                        },
+						sp_id : function(){
+                            return $('#sp_id').val();
+                        },
+                    }
+               }
+            },
+            sp_listorder: {
+				required : true,
+				digits	 : true
+            }
+        },
+        messages : {
+        	sp_name : {
+            	required : '请填写规格名称',
+                maxlength: '规格名称长度应在1-10个字符之间',
+                minlength: '规格名称长度应在1-10个字符之间',
+				remote	 : '该规格名称已存在'
+            },
+            sp_listorder: {
+				required : '请填写规格排序',
+				digits   : '请填写整数'
+            }
+        }
+    });
+
+    //按钮先执行验证再提交表单
+    $("#submitBtn").click(function(){
+        if($("#spec_form").valid()){
+        	$("#spec_form").submit();
+    	}
+    });
+
+    //预览图片
+    $("input[ectype='change_default_goods_image']").live("change", function(){
+		var src = getFullPath($(this)[0]);
+		$(this).parent().prev().find('.low_source').attr('src',src);
+	});
+
+    $("input[ectype='change_default_goods_image']").change(function(){
+		$(this).parents('tr:first').find("input[ectype='submit_value']").val('ok');
+	});
+
+    $("input[ectype='change_default_submit_value']").change(function(){
+    	$(this).parents('tr:first').find("input[ectype='submit_value']").val('ok');
+    });
+
+});
+function remove_tr(o){
+	o.parents('tr:first').remove();
+}
+$(function(){
+	$('input[ectype="change_default_goods_image"]').live("change", function(){
+		$(this).parent().find('input[class="type-file-text"]').val($(this).val());
+	});
+});
+</script>
+<!--{include "footer.html"}-->

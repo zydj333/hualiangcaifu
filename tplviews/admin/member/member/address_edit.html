@@ -1,0 +1,135 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->selarea.js"></script>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>会员管理</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/lists?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/user_add?loghash=<!--{$COM.LOGHASH}-->" ><span>新增</span></a></li>
+        <li><a href="<!--{$COM.ADMIN_URL}-->member/member/user_addresses?loghash=<!--{$COM.LOGHASH}-->&user_id=<!--{$uid}-->" ><span>收货地址</span></a></li>
+				<li><a href="javascript:void(0);" class="current"><span>新增地址</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="user_form" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <input type="hidden" name="uid" value="<!--{$uid}-->" >
+    <input type="hidden" name="address_id" value="<!--{$info.address_id}-->" >
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="true_name">收货人:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.true_name}-->" name="true_name" id="true_name" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation" class="province_id">地区:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          	<select name="province_id" id="province_id" style="width:80px;">
+          		<!--{foreach from=$ac_list item=v}-->
+              <option  value="<!--{$v.id}-->" ><!--{$v.name}--></option>
+							<!--{/foreach}-->
+          	</select>
+          	<select name="city_id" id="city_id" style="width:80px;">
+      			</select>
+      			<select name="area_id" id="area_id" style="width:80px;">
+      			</select>
+      			<script language="javascript">
+      			setup(<!--{$info.province_id}-->,<!--{$info.city_id}-->,<!--{$info.area_id}-->);
+      			</script>
+          	<input type="text" value="<!--{$info.address}-->" id="address" name="address" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>        
+        <tr>
+          <td colspan="2" class="required"><label for="zip_code">邮编:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.zip_code}-->" id="zip_code" name="zip_code" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        
+       <tr>
+          <td colspan="2" class="required"><label class="validation" for="mob_phone">移动电话:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.mob_phone}-->" id="mob_phone" name="mob_phone" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="tel_phone">固定电话:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$info.tel_phone}-->" id="tel_phone" name="tel_phone" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </form>
+</div>
+<script type="text/javascript">
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#user_form").valid()){
+     $("#user_form").submit();
+	}
+	});
+});
+//
+$(function(){
+    $('#user_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        onkeyup    : false,
+        rules : {
+            true_name: {
+            	  required : true
+            },
+            province_id: {
+            	  required : true
+            },
+            address: {
+            	  required : true
+            },
+						mob_phone : {
+							 required : true
+						}
+        },
+        messages : {
+						true_name: {
+							required : '收货人不能为空'
+						},
+            province_id : {
+            	required : '收货地址不能为空'
+            },
+            address : {
+            	required : '详细地址不能为空'
+            },
+            mob_phone : {
+            	required : '手机号码不能为空'
+            }
+        }
+    });
+});
+
+</script>
+
+<!--{include "footer.html"}-->
+</body>
+</html>

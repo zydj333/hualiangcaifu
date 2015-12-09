@@ -1,0 +1,128 @@
+<!--{include "header.html"}-->
+<script type="text/javascript" src="<!--{$JS_PATH}-->admin.tools.js"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>数据字典</h3>
+      <ul class="tab-base">
+        <li><a href="<!--{$COM.ADMIN_URL}-->maintenance/dictionary/lists/?loghash=<!--{$COM.LOGHASH}-->" ><span>管理</span></a></li>
+        <li><a href="JavaScript:void(0);" class="current"><span>新增</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form id="dictionary_form" method="post">
+    <input type="hidden" name="dosubmit" value="ok" />
+    <input type="hidden" name="dict_id" value="<!--{$dict.id}-->" />
+    <table class="table tb-type2 nobdb">
+      <tbody>
+	    	<tr>
+          <td colspan="2" class="required"><label class="validation" for="table_name"> 表名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$dict.table_name}-->" name="table_name" id="table_name" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation" for="column_name"> 列名称:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$dict.column_name}-->" name="column_name" id="column_name" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+				<tr>
+          <td colspan="2" class="required"><label class="validation" for="column_title"> 字段含义:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$dict.column_title}-->" name="column_title" id="column_title" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label class="validation" for="column_value"> 字段值:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$dict.column_value}-->" name="column_value" id="column_value" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="listorder"> 排序号:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{$dict.listorder}-->" name="listorder" id="listorder" class="txt"></td>
+          <td class="vatop tips">仅为数字，数字越小越靠前</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required"><label for="remark"> 备注:</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><textarea value='' name="remark" id="remark" rows="6" class="tarea"><!--{$dict.remark}--></textarea></td>
+          <td class="vatop tips"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="15"><a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+    if($("#dictionary_form").valid()){
+     $("#dictionary_form").submit();
+	}
+	});
+});
+
+//
+$(document).ready(function(){
+	$('#dictionary_form').validate({
+        errorPlacement: function(error, element){
+			error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+		    		table_name : {
+                required : true
+            },
+						column_name : {
+                required : true,
+            },
+            column_title : {
+                required : true,
+            },
+            column_value : {
+                required : true,
+            },
+            listorder  : {
+                number   : true
+            }
+        	},
+        messages : {
+		    		table_name : {
+                required : '表名称不能为空'
+            },
+						column_name  : {
+                required :  '列名称不能为空'
+            },
+            column_title  : {
+                required :  '字段含义不能为空'
+            },
+            column_value  : {
+                required :  '字段值不能为空'
+            },
+            listorder  : {
+                number   : '排序号仅能为数字'
+            },
+            
+        }
+    });
+});
+</script>
+</body>
+</html>

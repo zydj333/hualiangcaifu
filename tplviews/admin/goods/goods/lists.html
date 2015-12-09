@@ -1,0 +1,138 @@
+<!--{include "header.html"}-->
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <h3>商品</h3>
+      <ul class="tab-base">
+        <li><a href="JavaScript:void(0);" class="current"><span>所有商品</span></a></li>
+        
+      </ul>
+    </div>
+  </div>
+  <div class="fixed-empty"></div>
+  <form method="get" name="formSearch">
+    <input type="hidden" name="loghash" value="<!--{$COM.LOGHASH}-->" />
+    <input type="hidden" name="dosubmit" value="ok">
+    <table class="tb-type1 noborder search">
+      <tbody>
+        <tr>
+          <th><label for="search_goods_name"> 商品名称</label></th>
+          <td><input type="text" value="<!--{if isset($goods_name)}--><!--{$goods_name}--><!--{/if}-->" name="search_goods_name" id="search_goods_name" class="txt"></td>
+          <th><label>分类名</label></th>
+          <td id="gcategory">
+            <select class="querySelect" name="search_goods_category">
+              <option value="">请选择...</option>
+                <!--{foreach from=$goods_category item=value}-->
+				<option value="<!--{$value.gc_id}-->" <!--{if isset($category)}--><!--{if $category == $value.gc_id}-->selected='selected'<!--{/if}--><!--{/if}--> ><!--{$value.gc_name}--></option>
+				    <!--{foreach from=$value.sub item=val}-->
+					<option value="<!--{$val.gc_id}-->" <!--{if isset($category)}--><!--{if $category == $val.gc_id}-->selected='selected'<!--{/if}--><!--{/if}--> >&nbsp;&nbsp;&nbsp;<!--{$val.gc_name}--></option>
+					    <!--{foreach from=$val.end item=v}-->
+					    <option value="<!--{$v.gc_id}-->" <!--{if isset($category)}--><!--{if $category == $v.gc_id}-->selected='selected'<!--{/if}--><!--{/if}--> >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--{$v.gc_name}--></option>
+					    <!--{/foreach}-->
+					<!--{/foreach}-->
+                <!--{/foreach}-->
+                                        </select></td>
+
+          <th><label>上架</label></th>
+          <td><select name="search_show">
+              <option value="">请选择...</option>
+              <option value="1" <!--{if isset($goods_show)}--><!--{if $goods_show == '1'}-->selected='selected'<!--{/if}--><!--{/if}--> >是</option>
+              <option value="0" <!--{if isset($goods_show)}--><!--{if $goods_show == '0'}-->selected='selected'<!--{/if}--><!--{/if}--> >否</option>
+            </select>
+          
+            <a href="javascript:document.formSearch.submit();" class="btn-search tooltip" title="查询">&nbsp;</a>
+			<!--{if isset($form_submit)}--><a href="<!--{$COM.ADMIN_URL}-->goods/goods/goods_list?loghash=<!--{$COM.LOGHASH}-->" class="btns tooltip"><span>撤销检索</span></a><!--{/if}-->
+			</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <table class="table tb-type2" id="prompt">
+    <tbody>
+      <tr class="space odd">
+        <th colspan="12"><div class="title">
+            <h5>操作提示</h5>
+            <span class="arrow"></span></div></th>
+      </tr>
+      <tr>
+        <td><ul>
+            <li>上架，当商品处于非上架状态时，前台将不能浏览该商品，店主和管理员都可控制商品上架状态</li>
+            <li>违规下架，当商品处于违规下架状态时，前台将不能浏览该商品，只有管理员可控制商品违规下架状态</li>
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <form method='post' id="listfrom">
+    <table class="table tb-type2">
+      <thead>
+        <tr class="thead">
+          <th class="w24"></th>
+          <th>排序</th>
+          <th colspan="2">商品名称</th>
+          <th>分类名</th>
+          <th class="align-center">上架</th>
+          <th class="align-center">浏览</th>
+          <th class="align-center">操作 </th>
+        </tr>
+      </thead>
+      <tbody>
+	    <!--{if $infolist}-->
+        <!--{foreach from=$infolist item=v}-->
+		<tr class="hover edit">
+          <td><input type="checkbox" name="del_id[]" value="<!--{$v.goods_id}-->" class="checkitem"></td>
+          <td class="w48 sort"> <input type="hidden" name="hdnid[]" value="<!--{$v.goods_id}-->" /><input type="text" value="<!--{$v.goods_listorder}-->" name="listorder[]" id="listorder[]" class="txt-short">
+          	<div style='display:none;'><input type="hidden" value="<!--{$v.goods_id}-->" name="id[]" id="id[]" /><input type="checkbox" name="ckbid[]" value="<!--{$v.goods_id}-->" class="checkitem"><div>
+          </td>
+          <td class="w60 picture"><div class="size-56x56"><span class="thumb size-56x56"><i></i><img src="<!--{$COM.BASE_URL}--><!--{remain_image_path($v.goods_image,'w')}-->" onerror="this.src='<!--{$COM.BASE_URL}-->uploadfile/common/default_goods_image.gif_tiny.gif'" onload="javascript:DrawImage(this,56,56);"/></span></div></td>
+          <td class="goods-name w270"><p><span class="editable-tarea tooltip" required="1" ajax_branch_textarea="goods_name" fieldid="84" fieldname="goods_name" nc_type="inline_edit_textarea"><!--{$v.goods_name}--></span></p>
+				</td>
+          <td><!--{$v.gc_name}--></td>
+          <td class="align-center yes-onoff">
+			<a href="JavaScript:void(0);" class="tooltip <!--{if $v.goods_show == 1}-->enabled<!--{else}-->disabled<!--{/if}-->" ajax_branch="goods_show" nc_type="inline_edit" fieldname="goods_show" fieldid="84" fieldvalue="0"><img src="<!--{$IMG_PATH}-->transparent.gif"></a>
+          </td>
+          <td class="align-center"><!--{$v.goods_click}--></td>
+          <td class="align-center">
+          	<a href="<!--{$COM.ADMIN_URL}-->goods/goods/goods_edit?goods_id=<!--{$v.goods_id}-->&class_id=<!--{$v.gc_id}-->&loghash=<!--{$COM.LOGHASH}-->">编辑</a> | 
+          	<a href="javascript:del('<!--{$COM.ADMIN_URL}-->goods/goods/goods_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]',<!--{$v.goods_id}-->);">删除</a>
+          </td>
+        </tr>
+		<!--{/foreach}-->
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td><input type="checkbox" class="checkall" id="checkallBottom"></td>
+          <td colspan="16"><label for="checkallBottom">全选</label>
+					
+						<a href="JavaScript:void(0);" class="btn" onclick="dodel('<!--{$COM.ADMIN_URL}-->goods/goods/goods_del/?loghash=<!--{$COM.LOGHASH}-->','del_id[]');"><span>删除</span></a>
+						<a href="JavaScript:void(0);" class="btn" onclick="doOrder('<!--{$COM.ADMIN_URL}-->goods/goods/goods_order/?loghash=<!--{$COM.LOGHASH}-->');"><span>排序</span></a>
+            <!--{$infopage}-->
+		  </td>
+        </tr>
+        <!--{else}-->
+		<tr class="no_data">
+          <td colspan="10">没有符合条件的记录</td>
+        </tr>
+		<!--{/if}-->
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script type="text/javascript" src="<!--{$JS_PATH}-->jquery.edit.js" charset="utf-8"></script>
+<script type="text/javascript" src="<!--{$JS_PATH}-->common_select.js" charset="utf-8"></script>
+<script type="text/javascript">
+var SITE_URL = "<!--{$COM.ADMIN_URL}-->";
+var LOGHASH = "<!--{$COM.LOGHASH}-->";
+function submit_form(type){
+	if(type=='del'){
+		if(!confirm('您确定进行该操作吗?')){
+			return false;
+		}
+	}
+	$('#type').val(type);
+	$('#form_goods').submit();
+}
+$(function(){
+	gcategoryInit("gcategory");
+});
+</script>
+<!--{include "footer.html"}-->
